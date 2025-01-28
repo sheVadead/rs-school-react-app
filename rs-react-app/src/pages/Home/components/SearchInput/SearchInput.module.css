@@ -1,0 +1,10 @@
+.container {
+    display: flex;
+    width: 80%;
+    height: 30px;
+    /* border: 1px solid yellow; */
+}
+
+.searchInput {
+    width: 80%;
+}
