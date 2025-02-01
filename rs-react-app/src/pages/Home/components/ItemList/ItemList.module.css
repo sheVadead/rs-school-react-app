@@ -1,0 +1,31 @@
+.container {
+  display: flex;
+  margin-top: 10px;
+  width: 80%;
+  height: 30px;
+  /* border: 1px solid yellow; */
+  flex-wrap: wrap;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  width: 30%;
+  justify-content: space-between;
+  border: 1px solid black;
+  height: 200px;
+}
+
+.cardColumn {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding: 10px;
+}
+
+span {
+  text-align: left;
+}
+.cardContainer {
+  display: flex;
+}
