@@ -26,14 +26,19 @@ const LAST_SEARCH_TERM_KEY = 'lastSearchTerm';
 class StarWarsClient implements IStarWarsClient {
   private baseUrl = 'https://swapi.dev/api/people/';
 
-  public async search(searchTerm: string) {
-    const response = await this.fetchJson(
-      searchTerm ? { search: searchTerm } : undefined
-    );
+  public async search(searchTerm: string): Promise<StarWarsPerson[]> {
+    try {
+      const response = await this.fetchJson(
+        searchTerm ? { search: searchTerm } : undefined
+      );
 
-    this.saveToLocalStorage(searchTerm);
+      this.saveToLocalStorage(searchTerm);
 
-    return response.results;
+      return response.results;
+    } catch (error) {
+      console.error('Error fetching data:', error);
+      return [];
+    }
   }
 
   private saveToLocalStorage(searchTerm: string) {
@@ -49,11 +54,13 @@ class StarWarsClient implements IStarWarsClient {
       newUrl.searchParams.set('search', params.search);
     }
 
-    const response = (await (
-      await fetch(newUrl)
-    ).json()) as StarWarsApiResponse;
+    const response = await fetch(newUrl);
 
-    return response;
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+
+    return response.json() as Promise<StarWarsApiResponse>;
   }
 }
 export const starWarsApiClient = new StarWarsClient();
