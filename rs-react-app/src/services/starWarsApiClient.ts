@@ -27,12 +27,6 @@ class StarWarsClient implements IStarWarsClient {
   private baseUrl = 'https://swapi.dev/api/people/';
 
   public async search(searchTerm: string) {
-    const cachedSearchTerm = this.getCachedSearchTerm();
-
-    if (cachedSearchTerm) {
-      return (await this.fetchJson({ search: cachedSearchTerm })).results;
-    }
-
     const response = await this.fetchJson(
       searchTerm ? { search: searchTerm } : undefined
     );
@@ -60,12 +54,6 @@ class StarWarsClient implements IStarWarsClient {
     ).json()) as StarWarsApiResponse;
 
     return response;
-  }
-
-  private getCachedSearchTerm(): string | null {
-    const cache = localStorage.getItem(LAST_SEARCH_TERM_KEY);
-
-    return cache ? cache : null;
   }
 }
 export const starWarsApiClient = new StarWarsClient();

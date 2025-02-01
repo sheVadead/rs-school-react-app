@@ -12,7 +12,7 @@ type State = {
 };
 export class SearchInput extends Component<SearchInputProps> {
   state: State = {
-    inputValue: '',
+    inputValue: localStorage.getItem('lastSearchTerm') || '',
   };
 
   constructor(props: SearchInputProps) {
@@ -28,7 +28,6 @@ export class SearchInput extends Component<SearchInputProps> {
 
   async componentDidMount(): Promise<void> {
     const response = await starWarsApiClient.search(this.state.inputValue);
-
     this.props.setItems(response);
   }
 
@@ -37,7 +36,6 @@ export class SearchInput extends Component<SearchInputProps> {
     const response = await starWarsApiClient.search(this.state.inputValue);
 
     this.props.setItems(response);
-    console.log(response);
   }
 
   render() {
