@@ -3,7 +3,6 @@ main {
   flex-direction: column;
   padding-top: 10px;
   align-items: center;
-  border: 1px solid red;
-  height: 100vh;
+  height: 1000px;
   flex-shrink: 0;
 }

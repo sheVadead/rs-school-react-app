@@ -26,7 +26,9 @@ const LAST_SEARCH_TERM_KEY = 'lastSearchTerm';
 class StarWarsClient implements IStarWarsClient {
   private baseUrl = 'https://swapi.dev/api/people/';
 
-  public async search(searchTerm: string): Promise<StarWarsPerson[]> {
+  public async search(
+    searchTerm: string
+  ): Promise<{ items: StarWarsPerson[]; isLoading: boolean; isError?: boolean }> {
     try {
       const response = await this.fetchJson(
         searchTerm ? { search: searchTerm } : undefined
@@ -34,10 +36,10 @@ class StarWarsClient implements IStarWarsClient {
 
       this.saveToLocalStorage(searchTerm);
 
-      return response.results;
+      return { isLoading: false, items: response.results };
     } catch (error) {
       console.error('Error fetching data:', error);
-      return [];
+      return { isLoading: false, items: [], isError: true };
     }
   }
 
