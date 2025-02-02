@@ -38,7 +38,6 @@ export class HomePage extends Component {
   };
 
   render() {
-    console.log('debug');
     return (
       <>
         <main>
