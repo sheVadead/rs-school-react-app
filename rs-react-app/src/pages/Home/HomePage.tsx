@@ -38,6 +38,7 @@ export class HomePage extends Component {
   };
 
   render() {
+    console.log('test');
     return (
       <>
         <main>
