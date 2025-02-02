@@ -1,5 +1,3 @@
-import { DatabaseService } from './db/db.service';
-
 type IStarWarsClient = {
   search: (search: string) => Promise<SearchResponse>;
 };
