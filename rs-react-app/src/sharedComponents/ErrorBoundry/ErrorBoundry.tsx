@@ -30,7 +30,6 @@ export class ErrorBoundary extends Component<
   };
 
   render() {
-    console.log('test');
     if (this.state.hasError) {
       return (
         <>
