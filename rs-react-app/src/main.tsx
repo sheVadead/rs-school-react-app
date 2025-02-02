@@ -14,3 +14,5 @@ createRoot(root).render(
     <App />
   </StrictMode>
 );
+
+console.log('asdasd');
