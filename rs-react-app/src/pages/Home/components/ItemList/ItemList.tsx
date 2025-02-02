@@ -8,6 +8,7 @@ type itemListProps = {
 
 export class ItemList extends Component<itemListProps> {
   render() {
+    console.log('husky');
     return (
       <div
         className={
