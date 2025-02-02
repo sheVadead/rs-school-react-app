@@ -36,7 +36,7 @@ class StarWarsClient implements IStarWarsClient {
   public async search(searchTerm: string): Promise<SearchResponse> {
     try {
       const response = await this.fetchJson(
-        searchTerm ? { search: searchTerm } : undefined
+        searchTerm ? { search: searchTerm.trim() } : undefined
       );
 
       this.saveToLocalStorage(searchTerm);
