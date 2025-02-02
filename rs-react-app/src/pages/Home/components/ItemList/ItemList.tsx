@@ -7,9 +7,6 @@ type itemListProps = {
 };
 
 export class ItemList extends Component<itemListProps> {
-  constructor(props: itemListProps) {
-    super(props);
-  }
   render() {
     return (
       <div

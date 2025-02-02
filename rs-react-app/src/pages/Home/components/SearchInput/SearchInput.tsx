@@ -20,10 +20,6 @@ export class SearchInput extends Component<SearchInputProps, State> {
     inputValue: localStorage.getItem('lastSearchTerm') || '',
   };
 
-  constructor(props: SearchInputProps) {
-    super(props);
-  }
-
   handleOnInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     this.setState({ inputValue: value });

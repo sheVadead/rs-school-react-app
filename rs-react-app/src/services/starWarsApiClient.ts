@@ -1,5 +1,7 @@
+import { DatabaseService } from './db/db.service';
+
 type IStarWarsClient = {
-  search: (search: string) => Promise<any>;
+  search: (search: string) => Promise<SearchResponse>;
 };
 
 export type StarWarsPerson = {
@@ -22,17 +24,20 @@ type StarWarsApiResponse = {
   results: StarWarsPerson[];
 };
 
+type SearchResponse = {
+  items: StarWarsPerson[];
+  isLoading: boolean;
+  isError?: boolean;
+};
+
 const LAST_SEARCH_TERM_KEY = 'lastSearchTerm';
+
 class StarWarsClient implements IStarWarsClient {
   private baseUrl = 'https://swapi.dev/api/people/';
 
-  public async search(
-    searchTerm: string
-  ): Promise<{
-    items: StarWarsPerson[];
-    isLoading: boolean;
-    isError?: boolean;
-  }> {
+  private db: DatabaseService = new DatabaseService();
+
+  public async search(searchTerm: string): Promise<SearchResponse> {
     try {
       const response = await this.fetchJson(
         searchTerm ? { search: searchTerm } : undefined
@@ -46,7 +51,6 @@ class StarWarsClient implements IStarWarsClient {
       return { isLoading: false, items: [], isError: true };
     }
   }
-
   private saveToLocalStorage(searchTerm: string) {
     localStorage.setItem(LAST_SEARCH_TERM_KEY, searchTerm);
   }
