@@ -36,9 +36,15 @@
     "typescript-eslint": "^8.18.2",
     "vite": "^6.0.5"
   },
-  "husky": {
+"husky": {
     "hooks": {
-      "pre-commit": "echo \"[Husky] pre-commit\""
+      "pre-commit": "lint-staged"
     }
+  },
+  "lint-staged": {
+    "*.{js,ts,vue,tsx}": [
+      "npm run lint",
+      "git add"
+    ]
   }
 }
