@@ -28,7 +28,11 @@ class StarWarsClient implements IStarWarsClient {
 
   public async search(
     searchTerm: string
-  ): Promise<{ items: StarWarsPerson[]; isLoading: boolean; isError?: boolean }> {
+  ): Promise<{
+    items: StarWarsPerson[];
+    isLoading: boolean;
+    isError?: boolean;
+  }> {
     try {
       const response = await this.fetchJson(
         searchTerm ? { search: searchTerm } : undefined

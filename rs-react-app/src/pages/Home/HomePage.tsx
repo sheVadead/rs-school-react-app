@@ -46,7 +46,9 @@ export class HomePage extends Component {
             setLoader={this.setIsloading}
             setError={this.setError}
           />
-          <button onClick={this.triggerError}>Trigger Error Boundry error</button>
+          <button onClick={this.triggerError}>
+            Trigger Error Boundry error
+          </button>
           {this.state.isLoading ? (
             <Loader />
           ) : (

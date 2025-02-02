@@ -27,7 +27,7 @@ export class ErrorBoundary extends Component<
 
   fixError = () => {
     this.setState({ hasError: false });
-  }
+  };
 
   render() {
     if (this.state.hasError) {
@@ -35,7 +35,9 @@ export class ErrorBoundary extends Component<
         <>
           <div>
             <h2>Error while rendering the app</h2>
-            <button onClick={this.fixError} type="button">Fix</button>
+            <button onClick={this.fixError} type="button">
+              Fix
+            </button>
           </div>
         </>
       );
