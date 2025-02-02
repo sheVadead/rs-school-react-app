@@ -35,8 +35,6 @@ const LAST_SEARCH_TERM_KEY = 'lastSearchTerm';
 class StarWarsClient implements IStarWarsClient {
   private baseUrl = 'https://swapi.dev/api/people/';
 
-  private db: DatabaseService = new DatabaseService();
-
   public async search(searchTerm: string): Promise<SearchResponse> {
     try {
       const response = await this.fetchJson(

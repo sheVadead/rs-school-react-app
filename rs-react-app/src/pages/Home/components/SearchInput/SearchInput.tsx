@@ -25,9 +25,9 @@ export class SearchInput extends Component<SearchInputProps, State> {
     this.setState({ inputValue: value });
   };
 
-  async componentDidMount(): Promise<void> {
+  componentDidMount = async (): Promise<void> => {
     this.setFetchedItemsToState();
-  }
+  };
 
   handleOnSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
