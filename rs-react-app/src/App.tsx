@@ -1,7 +1,7 @@
 import { Component } from 'react';
 import './assets/styles/App.css';
 import { HomePage } from './pages/Home/HomePage';
-import { ErrorBoundary } from './sharedComponents/ErrorBoundry/ErrorBoundry';
+import { ErrorBoundary } from './sharedComponents/ErrorBoundary/ErrorBoundary';
 
 class App extends Component {
   render() {

@@ -9,14 +9,14 @@ export type HomePageState = {
   items: StarWarsPerson[];
   isLoading: boolean;
   isError: boolean;
-  isErrorBoundryError: boolean;
+  isErrorBoundaryError: boolean;
 };
 export class HomePage extends Component {
   state: HomePageState = {
     items: [],
     isLoading: false,
     isError: false,
-    isErrorBoundryError: false,
+    isErrorBoundaryError: false,
   };
 
   setIsloading = (isLoading: boolean) => {
@@ -47,7 +47,7 @@ export class HomePage extends Component {
             setError={this.setError}
           />
           <button onClick={this.triggerError}>
-            Trigger Error Boundry error
+            Trigger Error Boundary error
           </button>
           {this.state.isLoading ? (
             <Loader />
