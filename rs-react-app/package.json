@@ -7,7 +7,7 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "lint :fix": "eslint ./src  --fix",
+    "lint:fix": "eslint ./src  --fix",
     "preview": "vite preview",
     "format:fix": "prettier --write .",
     "prepare": "cd .. && husky rs-react-app/.husky"
