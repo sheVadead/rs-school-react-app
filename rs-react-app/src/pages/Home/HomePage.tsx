@@ -24,7 +24,6 @@ export class HomePage extends Component {
   };
 
   setItems = (items: StarWarsPerson[]) => {
-    console.log('asldn');
     this.setState((prevState: HomePageState) => ({ ...prevState, items }));
   };
 
