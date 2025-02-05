@@ -1,5 +1,8 @@
 import { useState } from 'react';
-import { StarWarsPerson } from '../../../../../services/starWarsApiClient';
+import {
+  StarWarsApiResponse,
+  StarWarsPerson,
+} from '../../../../../services/starWarsApiClient';
 
 export const useFetchItems = (searchValue: string) => {
   const [items, setItems] = useState<StarWarsPerson[]>([]);
@@ -10,14 +13,14 @@ export const useFetchItems = (searchValue: string) => {
     const response = await fetch(
       `https://swapi.dev/api/people/?search=${searchValue}`
     );
-    console.log(response);
+
     if (!response.ok) {
       throw new Error('Something went wrong');
     }
     return await response.json();
   };
 
-  const updateStateWithFetchedItems = (response: any) => {
+  const updateStateWithFetchedItems = (response: StarWarsApiResponse) => {
     setItems(response.results);
   };
 

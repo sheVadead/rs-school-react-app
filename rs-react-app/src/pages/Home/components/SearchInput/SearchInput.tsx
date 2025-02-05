@@ -1,24 +1,16 @@
-import { ChangeEvent, FormEvent, useEffect } from 'react';
+import { ChangeEvent, FormEvent } from 'react';
 import styles from './SearchInput.module.css';
-import { useLocalStorage } from './hooks/useSearchQuery';
-import { useFetchItems } from './hooks/useFetchItems';
-import { Loader } from '../../../../sharedComponents/Loader/Loader';
-import { ItemList } from '../ItemList/ItemList';
 
-type SearchInputProps = object;
+interface SearchInputProps {
+  setLastSearchTerm: (value: string) => void;
+  setFetchedItemsToState: () => void;
+  lastSearchTerm: string;
+}
 
-export const SearchInput: React.FC<SearchInputProps> = () => {
-  const [lastSearchTerm, setLastSearchTerm] = useLocalStorage(
-    'lastSearchTerm',
-    ''
-  );
-
-  const { items, isLoading, isError, setFetchedItemsToState } =
-    useFetchItems(lastSearchTerm);
-
-  useEffect(() => {
-    setFetchedItemsToState();
-  }, [lastSearchTerm]);
+export const SearchInput: React.FC<SearchInputProps> = (
+  props: SearchInputProps
+): JSX.Element => {
+  const { setLastSearchTerm, setFetchedItemsToState, lastSearchTerm } = props;
 
   const handleOnInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
@@ -31,19 +23,16 @@ export const SearchInput: React.FC<SearchInputProps> = () => {
   };
 
   return (
-    <>
-      <form onSubmit={handleOnSubmit} className={styles.form}>
-        <input
-          type="text"
-          value={lastSearchTerm}
-          onChange={handleOnInputChange}
-          className={styles.input}
-        />
-        <button type="submit" className={styles.button}>
-          Search
-        </button>
-      </form>
-      {isLoading ? <Loader /> : <ItemList items={items} isError={isError} />}
-    </>
+    <form onSubmit={handleOnSubmit} className={styles.form}>
+      <input
+        type="text"
+        value={lastSearchTerm}
+        onChange={handleOnInputChange}
+        className={styles.input}
+      />
+      <button type="submit" className={styles.button}>
+        Search
+      </button>
+    </form>
   );
 };

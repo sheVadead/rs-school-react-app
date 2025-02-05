@@ -15,7 +15,7 @@ export type StarWarsPerson = {
   films: string[];
 };
 
-type StarWarsApiResponse = {
+export type StarWarsApiResponse = {
   count: number;
   next: string | undefined;
   previous: StarWarsPerson[] | null;

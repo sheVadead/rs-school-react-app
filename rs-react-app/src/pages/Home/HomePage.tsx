@@ -1,7 +1,11 @@
-import { FC, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { SearchInput } from './components/SearchInput/SearchInput';
 import './HomePage.module.css';
 import { StarWarsPerson } from '../../services/starWarsApiClient';
+import { Loader } from '../../sharedComponents/Loader/Loader';
+import { ItemList } from './components/ItemList/ItemList';
+import { useFetchItems } from './components/SearchInput/hooks/useFetchItems';
+import { useLocalStorage } from './components/SearchInput/hooks/useSearchQuery';
 
 export type HomePageState = {
   items: StarWarsPerson[];
@@ -11,12 +15,26 @@ export type HomePageState = {
 };
 
 export const HomePage: FC = () => {
-  const [_, setIsErrorBoundaryError] = useState<boolean>(false);
+  const [, setIsErrorBoundaryError] = useState<boolean>(false);
+  const [lastSearchTerm, setLastSearchTerm] = useLocalStorage(
+    'lastSearchTerm',
+    ''
+  );
+  const { items, isLoading, isError, setFetchedItemsToState } =
+    useFetchItems(lastSearchTerm);
+
+  useEffect(() => {
+    setFetchedItemsToState();
+  });
 
   return (
     <>
       <main>
-        <SearchInput />
+        <SearchInput
+          setLastSearchTerm={setLastSearchTerm}
+          setFetchedItemsToState={setFetchedItemsToState}
+          lastSearchTerm={lastSearchTerm}
+        />
         <button
           onClick={() => {
             setIsErrorBoundaryError(() => {
@@ -26,6 +44,7 @@ export const HomePage: FC = () => {
         >
           Trigger Error Boundary error
         </button>
+        {isLoading ? <Loader /> : <ItemList items={items} isError={isError} />}
       </main>
     </>
   );
