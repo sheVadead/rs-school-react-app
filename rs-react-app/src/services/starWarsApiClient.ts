@@ -47,6 +47,7 @@ class StarWarsClient implements IStarWarsClient {
       return { isLoading: false, items: [], isError: true };
     }
   }
+
   private saveToLocalStorage(searchTerm: string) {
     localStorage.setItem(LAST_SEARCH_TERM_KEY, searchTerm);
   }

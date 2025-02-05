@@ -1,97 +1,49 @@
-import { ChangeEvent, Component, FormEvent } from 'react';
+import { ChangeEvent, FormEvent, useEffect } from 'react';
 import styles from './SearchInput.module.css';
-import {
-  starWarsApiClient,
-  StarWarsPerson,
-} from '../../../../services/starWarsApiClient';
+import { useLocalStorage } from './hooks/useSearchQuery';
+import { useFetchItems } from './hooks/useFetchItems';
+import { Loader } from '../../../../sharedComponents/Loader/Loader';
+import { ItemList } from '../ItemList/ItemList';
 
-type SearchInputProps = {
-  setItems: (items: StarWarsPerson[]) => void;
-  setLoader: (isLoading: boolean) => void;
-  setError: (isError: boolean) => void;
-};
+type SearchInputProps = object;
 
-type State = {
-  inputValue: string;
-};
+export const SearchInput: React.FC<SearchInputProps> = () => {
+  const [lastSearchTerm, setLastSearchTerm] = useLocalStorage(
+    'lastSearchTerm',
+    ''
+  );
 
-export class SearchInput extends Component<SearchInputProps, State> {
-  state: State = {
-    inputValue: localStorage.getItem('lastSearchTerm') || '',
-  };
+  const { items, isLoading, isError, setFetchedItemsToState } =
+    useFetchItems(lastSearchTerm);
 
-  handleOnInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+  useEffect(() => {
+    setFetchedItemsToState();
+  }, [lastSearchTerm]);
+
+  const handleOnInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
-    this.setState({ inputValue: value });
+    setLastSearchTerm(value);
   };
 
-  componentDidMount = async (): Promise<void> => {
-    this.setFetchedItemsToState();
-  };
-
-  handleOnSubmit = async (e: FormEvent<HTMLFormElement>) => {
+  const handleOnSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    this.setFetchedItemsToState();
+    setFetchedItemsToState();
   };
 
-  setFetchedItemsToState = async () => {
-    try {
-      this.startLoading();
-      const response = await this.fetchItems();
-      this.updateStateWithFetchedItems(response);
-    } catch (error) {
-      this.handleError(error);
-    } finally {
-      this.stopLoading();
-    }
-  };
-
-  startLoading = () => {
-    this.props.setLoader(true);
-  };
-
-  stopLoading = () => {
-    this.props.setLoader(false);
-  };
-
-  fetchItems = async () => {
-    return await starWarsApiClient.search(this.state.inputValue);
-  };
-
-  updateStateWithFetchedItems = (response: {
-    items: StarWarsPerson[];
-    isLoading: boolean;
-    isError?: boolean;
-  }) => {
-    this.props.setItems(response.items);
-    if (response.isError) {
-      this.props.setError(response.isError);
-    }
-  };
-
-  handleError = (error: unknown) => {
-    console.error('Error fetching items:', error);
-    this.props.setError(true);
-  };
-
-  render() {
-    return (
-      <div className={styles.container}>
-        <form
-          className={styles['form-container']}
-          onSubmit={this.handleOnSubmit}
-        >
-          <input
-            onChange={this.handleOnInputChange}
-            className={styles.searchInput}
-            type="search"
-            value={this.state.inputValue}
-          />
-          <button className={styles['button']} type="submit">
-            Submit
-          </button>
-        </form>
-      </div>
-    );
-  }
-}
+  return (
+    <>
+      <form onSubmit={handleOnSubmit} className={styles.form}>
+        <input
+          type="text"
+          value={lastSearchTerm}
+          onChange={handleOnInputChange}
+          className={styles.input}
+        />
+        <button type="submit" className={styles.button}>
+          Search
+        </button>
+      </form>
+      {isLoading ? <Loader /> : <ItemList items={items} isError={isError} />}
+    </>
+  );
+};

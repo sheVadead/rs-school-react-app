@@ -1,9 +1,7 @@
-import { Component } from 'react';
+import { FC, useState } from 'react';
 import { SearchInput } from './components/SearchInput/SearchInput';
-import { ItemList } from './components/ItemList/ItemList';
 import './HomePage.module.css';
 import { StarWarsPerson } from '../../services/starWarsApiClient';
-import { Loader } from '../../sharedComponents/Loader/Loader';
 
 export type HomePageState = {
   items: StarWarsPerson[];
@@ -11,51 +9,24 @@ export type HomePageState = {
   isError: boolean;
   isErrorBoundaryError: boolean;
 };
-export class HomePage extends Component {
-  state: HomePageState = {
-    items: [],
-    isLoading: false,
-    isError: false,
-    isErrorBoundaryError: false,
-  };
 
-  setIsloading = (isLoading: boolean) => {
-    this.setState((prevState: HomePageState) => ({ ...prevState, isLoading }));
-  };
+export const HomePage: FC = () => {
+  const [_, setIsErrorBoundaryError] = useState<boolean>(false);
 
-  setItems = (items: StarWarsPerson[]) => {
-    this.setState((prevState: HomePageState) => ({ ...prevState, items }));
-  };
-
-  setError = (isError: boolean) => {
-    this.setState((prevState: HomePageState) => ({ ...prevState, isError }));
-  };
-
-  triggerError = () => {
-    this.setState(() => {
-      throw new Error('Test error for ErrorBoundary');
-    });
-  };
-
-  render() {
-    return (
-      <>
-        <main>
-          <SearchInput
-            setItems={this.setItems}
-            setLoader={this.setIsloading}
-            setError={this.setError}
-          />
-          <button onClick={this.triggerError}>
-            Trigger Error Boundary error
-          </button>
-          {this.state.isLoading ? (
-            <Loader />
-          ) : (
-            <ItemList items={this.state.items} isError={this.state.isError} />
-          )}
-        </main>
-      </>
-    );
-  }
-}
+  return (
+    <>
+      <main>
+        <SearchInput />
+        <button
+          onClick={() => {
+            setIsErrorBoundaryError(() => {
+              throw new Error('Test error for ErrorBoundary');
+            });
+          }}
+        >
+          Trigger Error Boundary error
+        </button>
+      </main>
+    </>
+  );
+};
