@@ -6,7 +6,7 @@ import {
 
 export const useFetchItems = (searchValue: string, pageNumber: number) => {
   const [items, setItems] = useState<StarWarsPerson[]>([]);
-  const [isLoading, setIsloading] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isError, setError] = useState<boolean>(false);
   const [count, setCount] = useState(1);
 
@@ -19,7 +19,6 @@ export const useFetchItems = (searchValue: string, pageNumber: number) => {
       throw new Error('Something went wrong');
     }
 
-    // console.log(response)
     return await response.json();
   };
 
@@ -30,14 +29,14 @@ export const useFetchItems = (searchValue: string, pageNumber: number) => {
 
   const setFetchedItemsToState = async () => {
     try {
-      setIsloading(true);
+      setIsLoading(true);
       const response = await fetchItems();
       updateStateWithFetchedItems(response);
     } catch (error) {
       console.error('Error fetching data:', error);
       setError(true);
     } finally {
-      setIsloading(false);
+      setIsLoading(false);
     }
   };
 

@@ -30,7 +30,6 @@ export const SearchInput: React.FC<SearchInputProps> = (
     e.preventDefault();
 
     if (routerPageNumber !== 1) {
-      console.log('HANDLE ON CHANGE ', routerPageNumber);
       navigate('/page/1');
       return;
     }
