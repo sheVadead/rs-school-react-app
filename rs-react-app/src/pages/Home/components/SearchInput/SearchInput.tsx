@@ -23,12 +23,12 @@ export const SearchInput: React.FC<SearchInputProps> = (
   };
 
   return (
-    <form onSubmit={handleOnSubmit} className={styles.form}>
+    <form onSubmit={handleOnSubmit} className={styles['form-container']}>
       <input
         type="text"
         value={lastSearchTerm}
         onChange={handleOnInputChange}
-        className={styles.input}
+        className={styles['searchInput']}
       />
       <button type="submit" className={styles.button}>
         Search

@@ -25,7 +25,7 @@ export const HomePage: FC = () => {
 
   useEffect(() => {
     setFetchedItemsToState();
-  });
+  }, [lastSearchTerm]);
 
   return (
     <>
