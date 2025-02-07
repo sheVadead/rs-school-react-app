@@ -18,7 +18,7 @@
 .card {
   display: flex;
   flex-direction: column;
-  width: 30%;
+  width: 31%;
   min-width: 300px;
   justify-content: space-between;
   border: 1px solid black;
