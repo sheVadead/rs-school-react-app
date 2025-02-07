@@ -25,7 +25,13 @@
   height: 200px;
   margin-left: 7px;
 }
-
+.cardContainer {
+  display: flex;
+  margin-top: 10px;
+  width: 100%;
+  flex-wrap: wrap;
+  gap: 30px;
+}
 .cardColumn {
   display: flex;
   flex-direction: column;

@@ -1,7 +1,3 @@
-type IStarWarsClient = {
-  search: (search: string) => Promise<SearchResponse>;
-};
-
 export type StarWarsPerson = {
   name: string;
   height: string;
@@ -20,10 +16,4 @@ export type StarWarsApiResponse = {
   next: string | undefined;
   previous: StarWarsPerson[] | null;
   results: StarWarsPerson[];
-};
-
-type SearchResponse = {
-  items: StarWarsPerson[];
-  isLoading: boolean;
-  isError?: boolean;
 };

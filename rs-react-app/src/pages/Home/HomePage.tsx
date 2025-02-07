@@ -6,6 +6,8 @@ import { Loader } from '../../sharedComponents/Loader/Loader';
 import { ItemList } from './components/ItemList/ItemList';
 import { useFetchItems } from './components/SearchInput/hooks/useFetchItems';
 import { useLocalStorage } from './components/SearchInput/hooks/useSearchQuery';
+import { useParams } from 'react-router-dom';
+import { Pagination } from './components/Pagination/Pagination';
 
 export type HomePageState = {
   items: StarWarsPerson[];
@@ -16,16 +18,19 @@ export type HomePageState = {
 
 export const HomePage: FC = () => {
   const [, setIsErrorBoundaryError] = useState<boolean>(false);
+
   const [lastSearchTerm, setLastSearchTerm] = useLocalStorage(
     'lastSearchTerm',
     ''
   );
-  const { items, isLoading, isError, setFetchedItemsToState } =
-    useFetchItems(lastSearchTerm);
+  const { pageNumber } = useParams<{ pageNumber: string }>();
+
+  const { items, isLoading, isError, count, setFetchedItemsToState } =
+    useFetchItems(lastSearchTerm, parseInt(pageNumber || '1', 10));
 
   useEffect(() => {
     setFetchedItemsToState();
-  }, [lastSearchTerm]);
+  }, [pageNumber]);
 
   return (
     <>
@@ -34,6 +39,7 @@ export const HomePage: FC = () => {
           setLastSearchTerm={setLastSearchTerm}
           setFetchedItemsToState={setFetchedItemsToState}
           lastSearchTerm={lastSearchTerm}
+          routerPageNumber={parseInt(pageNumber || '1', 10)}
         />
         <button
           onClick={() => {
@@ -44,7 +50,13 @@ export const HomePage: FC = () => {
         >
           Trigger Error Boundary error
         </button>
-        {isLoading ? <Loader /> : <ItemList items={items} isError={isError} />}
+        <Pagination pageCount={Math.ceil(count / 10)}>
+          {isLoading ? (
+            <Loader />
+          ) : (
+            <ItemList response={{ items, count }} isError={isError} />
+          )}
+        </Pagination>
       </main>
     </>
   );
