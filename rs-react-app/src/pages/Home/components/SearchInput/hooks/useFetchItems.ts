@@ -24,7 +24,7 @@ export const useFetchItems = (searchValue: string, pageNumber: number) => {
 
   const updateStateWithFetchedItems = (response: StarWarsApiResponse) => {
     setItems(response.results);
-    setCount(response.count);
+    setCount(Math.ceil(response.count / 10));
   };
 
   const setFetchedItemsToState = async () => {

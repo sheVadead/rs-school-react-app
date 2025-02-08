@@ -20,6 +20,11 @@ const router = createBrowserRouter([
     element: <HomePage />,
     errorElement: <ErrorPage />,
   },
+  {
+    path: '/page/:pageNumber/details/:detailsNumber',
+    element: <HomePage />,
+    errorElement: <ErrorPage />,
+  },
 ]);
 
 export const App: React.FC = () => {

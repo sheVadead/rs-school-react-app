@@ -6,8 +6,9 @@ import { Loader } from '../../sharedComponents/Loader/Loader';
 import { ItemList } from './components/ItemList/ItemList';
 import { useFetchItems } from './components/SearchInput/hooks/useFetchItems';
 import { useLocalStorage } from './components/SearchInput/hooks/useSearchQuery';
-import { useParams } from 'react-router-dom';
+import { useParams, useSearchParams } from 'react-router-dom';
 import { Pagination } from './components/Pagination/Pagination';
+import { Details } from './components/Details/Details';
 
 export type HomePageState = {
   items: StarWarsPerson[];
@@ -18,7 +19,8 @@ export type HomePageState = {
 
 export const HomePage: FC = () => {
   const [, setIsErrorBoundaryError] = useState<boolean>(false);
-
+  const [searchParams] = useSearchParams();
+  const detailsOpen = searchParams.has('details');
   const [lastSearchTerm, setLastSearchTerm] = useLocalStorage(
     'lastSearchTerm',
     ''
@@ -50,13 +52,19 @@ export const HomePage: FC = () => {
         >
           Trigger Error Boundary error
         </button>
-        <Pagination pageCount={Math.ceil(count / 10)}>
+        <Pagination pageCount={count}>
           {isLoading ? (
             <Loader />
           ) : (
             <ItemList response={{ items, count }} isError={isError} />
           )}
         </Pagination>
+
+        {detailsOpen && (
+          <div className="rightPanel">
+            <Details />
+          </div>
+        )}
       </main>
     </>
   );

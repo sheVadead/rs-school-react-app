@@ -4,12 +4,11 @@
   justify-content: center;
   align-items: center;
   width: 100%;
-
 }
 
 .navigation {
-    display: flex;
-    width: 30%;
-    justify-content: space-around;
-    font-size: 24px;
+  display: flex;
+  width: 30%;
+  justify-content: space-around;
+  font-size: 24px;
 }

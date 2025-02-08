@@ -9,6 +9,7 @@ export type StarWarsPerson = {
   gender: string;
   homeworld: string;
   films: string[];
+  url: string;
 };
 
 export type StarWarsApiResponse = {
