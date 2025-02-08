@@ -1,38 +1,27 @@
-import { FC, useEffect, useState } from 'react';
-import { useSearchParams, useNavigate } from 'react-router-dom';
-import { StarWarsPerson } from '../../../../services/starWarsApiClient';
+import { FC, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import style from './Details.module.css';
+import { useParams } from 'react-router';
+import { useFetchStarWarsPerson } from '../SearchInput/hooks/useFetchStarWarsPerson';
+import { Loader } from '../../../../sharedComponents/Loader/Loader';
 
 export const Details: FC = () => {
-  const [searchParams] = useSearchParams();
   const navigate = useNavigate();
-  const [character, setCharacter] = useState<StarWarsPerson | null>(null);
-  const [loading, setLoading] = useState(true);
+  const { itemName: characterName, pageNumber } = useParams<{
+    itemName: string;
+    pageNumber: string;
+  }>();
 
-  const characterName = searchParams.get('details');
-  console.log('characterName', characterName);
+  const { item, isLoading, isError, setFetchedPersonToState } =
+    useFetchStarWarsPerson(characterName || '');
   useEffect(() => {
-    console.log('characterName', characterName);
     if (!characterName) return;
 
-    setLoading(true);
-    setTimeout(() => {
-      setCharacter({
-        name: characterName,
-        height: '180',
-        mass: '75',
-        hair_color: 'black',
-        eye_color: 'brown',
-        birth_year: '19BBY',
-        gender: 'male',
-      });
-      setLoading(false);
-    }, 1000);
+    setFetchedPersonToState();
   }, [characterName]);
 
   const handleClose = () => {
-    searchParams.delete('details');
-    navigate(`/?${searchParams.toString()}`);
+    navigate(`/page/${pageNumber || 1}`, { replace: true });
   };
 
   if (!characterName) return null;
@@ -40,20 +29,23 @@ export const Details: FC = () => {
   return (
     <div className={style.detailsContainer} onClick={handleClose}>
       <div className={style.detailsPanel} onClick={(e) => e.stopPropagation()}>
-        {loading ? (
-          <p>Loading...</p>
+        {isError && <h3>Something went wrong. Try again later</h3>}
+        {isLoading ? (
+          <Loader />
         ) : (
-          <>
-            <h3>{character?.name}</h3>
-            <p>Height: {character?.height}</p>
-            <p>Mass: {character?.mass}</p>
-            <p>Hair Color: {character?.hair_color}</p>
-            <p>Eye Color: {character?.eye_color}</p>
-            <p>Birth Year: {character?.birth_year}</p>
-            <p>Gender: {character?.gender}</p>
-            <button onClick={handleClose}>Close</button>
-          </>
+          !isError && (
+            <>
+              <h3>{item?.name}</h3>
+              <p>Height: {item?.height}</p>
+              <p>Mass: {item?.mass}</p>
+              <p>Hair Color: {item?.hair_color}</p>
+              <p>Eye Color: {item?.eye_color}</p>
+              <p>Birth Year: {item?.birth_year}</p>
+              <p>Gender: {item?.gender}</p>
+            </>
+          )
         )}
+        <button onClick={handleClose}>Close</button>
       </div>
     </div>
   );

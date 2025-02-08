@@ -8,6 +8,7 @@ import {
   RouterProvider,
 } from 'react-router-dom';
 import ErrorPage from './pages/Error/NotFoundPage';
+import { Details } from './pages/Home/components/Details/Details';
 
 const router = createBrowserRouter([
   {
@@ -19,11 +20,12 @@ const router = createBrowserRouter([
     path: '/page/:pageNumber',
     element: <HomePage />,
     errorElement: <ErrorPage />,
-  },
-  {
-    path: '/page/:pageNumber/details/:detailsNumber',
-    element: <HomePage />,
-    errorElement: <ErrorPage />,
+    children: [
+      {
+        path: 'details/:itemName',
+        element: <Details />,
+      },
+    ],
   },
 ]);
 

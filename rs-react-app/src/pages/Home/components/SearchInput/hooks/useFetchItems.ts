@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import {
+  fetchItems,
   StarWarsApiResponse,
   StarWarsPerson,
 } from '../../../../../services/starWarsApiClient';
@@ -10,18 +11,6 @@ export const useFetchItems = (searchValue: string, pageNumber: number) => {
   const [isError, setError] = useState<boolean>(false);
   const [count, setCount] = useState(1);
 
-  const fetchItems = async () => {
-    const response = await fetch(
-      `https://swapi.dev/api/people/?search=${searchValue}&page=${pageNumber}`
-    );
-
-    if (!response.ok) {
-      throw new Error('Something went wrong');
-    }
-
-    return await response.json();
-  };
-
   const updateStateWithFetchedItems = (response: StarWarsApiResponse) => {
     setItems(response.results);
     setCount(Math.ceil(response.count / 10));
@@ -30,7 +19,7 @@ export const useFetchItems = (searchValue: string, pageNumber: number) => {
   const setFetchedItemsToState = async () => {
     try {
       setIsLoading(true);
-      const response = await fetchItems();
+      const response = await fetchItems(searchValue, pageNumber);
       updateStateWithFetchedItems(response);
     } catch (error) {
       console.error('Error fetching data:', error);

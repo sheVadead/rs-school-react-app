@@ -1,14 +1,13 @@
 import { FC, useEffect, useState } from 'react';
 import { SearchInput } from './components/SearchInput/SearchInput';
-import './HomePage.module.css';
+import style from './HomePage.module.css';
 import { StarWarsPerson } from '../../services/starWarsApiClient';
 import { Loader } from '../../sharedComponents/Loader/Loader';
 import { ItemList } from './components/ItemList/ItemList';
 import { useFetchItems } from './components/SearchInput/hooks/useFetchItems';
 import { useLocalStorage } from './components/SearchInput/hooks/useSearchQuery';
-import { useParams, useSearchParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { Pagination } from './components/Pagination/Pagination';
-import { Details } from './components/Details/Details';
 
 export type HomePageState = {
   items: StarWarsPerson[];
@@ -19,14 +18,16 @@ export type HomePageState = {
 
 export const HomePage: FC = () => {
   const [, setIsErrorBoundaryError] = useState<boolean>(false);
-  const [searchParams] = useSearchParams();
-  const detailsOpen = searchParams.has('details');
   const [lastSearchTerm, setLastSearchTerm] = useLocalStorage(
     'lastSearchTerm',
     ''
   );
-  const { pageNumber } = useParams<{ pageNumber: string }>();
 
+  const { pageNumber, itemName } = useParams<{
+    pageNumber: string;
+    itemName?: string;
+  }>();
+  const navigate = useNavigate();
   const { items, isLoading, isError, count, setFetchedItemsToState } =
     useFetchItems(lastSearchTerm, parseInt(pageNumber || '1', 10));
 
@@ -34,8 +35,20 @@ export const HomePage: FC = () => {
     setFetchedItemsToState();
   }, [pageNumber]);
 
+  const handleOutletClose = () => {
+    if (itemName) {
+      navigate(`/page/${pageNumber}`, { replace: true });
+    }
+  };
+
   return (
     <>
+      {itemName && (
+        <div
+          className={style['background']}
+          onClick={() => handleOutletClose()}
+        />
+      )}
       <main>
         <SearchInput
           setLastSearchTerm={setLastSearchTerm}
@@ -59,12 +72,6 @@ export const HomePage: FC = () => {
             <ItemList response={{ items, count }} isError={isError} />
           )}
         </Pagination>
-
-        {detailsOpen && (
-          <div className="rightPanel">
-            <Details />
-          </div>
-        )}
       </main>
     </>
   );
