@@ -9,7 +9,7 @@ export const useFetchItems = (searchValue: string, pageNumber: number) => {
   const [items, setItems] = useState<StarWarsPerson[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isError, setError] = useState<boolean>(false);
-  const [count, setCount] = useState(1);
+  const [count, setCount] = useState(0);
 
   const updateStateWithFetchedItems = (response: StarWarsApiResponse) => {
     setItems(response.results);

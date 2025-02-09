@@ -69,7 +69,7 @@ export const HomePage: FC = () => {
           {isLoading ? (
             <Loader />
           ) : (
-            <ItemList response={{ items, count }} isError={isError} />
+            <ItemList items={items} isError={isError} />
           )}
         </Pagination>
       </main>

@@ -7,13 +7,15 @@ import { Loader } from '../../../../sharedComponents/Loader/Loader';
 
 export const Details: FC = () => {
   const navigate = useNavigate();
+
   const { itemName: characterName, pageNumber } = useParams<{
-    itemName: string;
-    pageNumber: string;
+    itemName?: string;
+    pageNumber?: string;
   }>();
 
   const { item, isLoading, isError, setFetchedPersonToState } =
     useFetchStarWarsPerson(characterName || '');
+
   useEffect(() => {
     if (!characterName) return;
 
@@ -23,8 +25,6 @@ export const Details: FC = () => {
   const handleClose = () => {
     navigate(`/page/${pageNumber || 1}`, { replace: true });
   };
-
-  if (!characterName) return null;
 
   return (
     <div className={style.detailsContainer} onClick={handleClose}>
