@@ -13,18 +13,20 @@ const router = createBrowserRouter([
   {
     path: '/',
     loader: () => redirect('/page/1'),
-    errorElement: <ErrorPage />,
   },
   {
     path: '/page/:pageNumber',
     element: <HomePage />,
-    errorElement: <ErrorPage />,
     children: [
       {
         path: 'details/:itemName',
         element: <Details />,
       },
     ],
+  },
+  {
+    path: '*',
+    element: <ErrorPage />,
   },
 ]);
 

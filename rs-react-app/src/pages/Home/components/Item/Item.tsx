@@ -22,7 +22,7 @@ export const Item = ({ item }: ItemProps) => {
       onClick={() => handleButtonClick(id)}
       className={style.card}
       key={item.name}
-      data-test-id={id}
+      data-testid={id}
     >
       <h3>{item.name}</h3>
     </div>
