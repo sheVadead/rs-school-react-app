@@ -1,11 +1,9 @@
-//// filepath: /e:/Programs/VS/Projects/rs-school-react-app/rs-react-app/src/pages/Home/tests/HomePage.test.tsx
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import { HomePage } from '../HomePage';
 import '@testing-library/jest-dom';
 
-// --- Mock Child Components ---
 jest.mock('../components/SearchInput/SearchInput', () => ({
   SearchInput: () => <div data-testid="search-input">SearchInput</div>,
 }));
@@ -24,7 +22,6 @@ jest.mock('../../../sharedComponents/Loader/Loader', () => ({
   Loader: () => <div data-testid="loader">Loader</div>,
 }));
 
-// --- Mock hooks ---
 import * as useFetchItemsModule from '../components/SearchInput/hooks/useFetchItems';
 import * as useLocalStorageModule from '../components/SearchInput/hooks/useSearchQuery';
 import { mockedItemList } from '../../../../__mocks__';
@@ -51,7 +48,6 @@ jest
   .spyOn(useLocalStorageModule, 'useLocalStorage')
   .mockReturnValue(mockUseLocalStorageReturn);
 
-// --- Mock useNavigate ---
 const mockNavigate = jest.fn();
 jest.mock('react-router-dom', () => {
   const actual = jest.requireActual('react-router-dom');

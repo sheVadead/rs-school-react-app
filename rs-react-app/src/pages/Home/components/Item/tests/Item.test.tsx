@@ -4,7 +4,6 @@ import { Item } from '../Item';
 import '@testing-library/jest-dom';
 import { mockedItemDetails } from '../../../../../../__mocks__';
 
-// Mock useNavigate and useParams.
 const mockNavigate = jest.fn();
 
 jest.mock('react-router-dom', () => {
