@@ -1,7 +1,3 @@
-type IStarWarsClient = {
-  search: (search: string) => Promise<SearchResponse>;
-};
-
 export type StarWarsPerson = {
   name: string;
   height: string;
@@ -13,60 +9,34 @@ export type StarWarsPerson = {
   gender: string;
   homeworld: string;
   films: string[];
+  url: string;
 };
 
-type StarWarsApiResponse = {
+export type StarWarsApiResponse = {
   count: number;
   next: string | undefined;
   previous: StarWarsPerson[] | null;
   results: StarWarsPerson[];
 };
 
-type SearchResponse = {
-  items: StarWarsPerson[];
-  isLoading: boolean;
-  isError?: boolean;
+export const fetchItems = async (searchValue: string, pageNumber: number) => {
+  const response = await fetch(
+    `https://swapi.dev/api/people/?search=${searchValue}&page=${pageNumber}`
+  );
+
+  if (!response.ok) {
+    throw new Error('Something went wrong');
+  }
+
+  return await response.json();
 };
 
-const LAST_SEARCH_TERM_KEY = 'lastSearchTerm';
+export const fetchItemByURL = async (id: string) => {
+  const response = await fetch(`https://swapi.dev/api/people/${id}`);
 
-class StarWarsClient implements IStarWarsClient {
-  private baseUrl = 'https://swapi.dev/api/people/';
-
-  public async search(searchTerm: string): Promise<SearchResponse> {
-    try {
-      const response = await this.fetchJson(
-        searchTerm ? { search: searchTerm.trim() } : undefined
-      );
-
-      this.saveToLocalStorage(searchTerm);
-
-      return { isLoading: false, items: response.results };
-    } catch (error) {
-      console.error('Error fetching data:', error);
-      return { isLoading: false, items: [], isError: true };
-    }
-  }
-  private saveToLocalStorage(searchTerm: string) {
-    localStorage.setItem(LAST_SEARCH_TERM_KEY, searchTerm);
+  if (!response.ok) {
+    throw new Error('Something went wrong');
   }
 
-  private async fetchJson(params?: {
-    search?: string;
-  }): Promise<StarWarsApiResponse> {
-    const newUrl = new URL(this.baseUrl);
-
-    if (params?.search) {
-      newUrl.searchParams.set('search', params.search);
-    }
-
-    const response = await fetch(newUrl);
-
-    if (!response.ok) {
-      throw new Error('Network response was not ok');
-    }
-
-    return response.json() as Promise<StarWarsApiResponse>;
-  }
-}
-export const starWarsApiClient = new StarWarsClient();
+  return await response.json();
+};

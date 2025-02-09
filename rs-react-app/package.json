@@ -10,17 +10,26 @@
     "lint:fix": "eslint ./src  --fix",
     "preview": "vite preview",
     "format:fix": "prettier --write .",
-    "prepare": "cd .. && husky rs-react-app/.husky"
+    "prepare": "cd .. && husky rs-react-app/.husky",
+    "test": "jest --coverage"
   },
   "dependencies": {
     "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "react-dom": "^18.3.1",
+    "react-router": "^7.1.5",
+    "react-router-dom": "^7.1.5"
   },
   "devDependencies": {
     "@eslint/js": "^9.17.0",
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.2.0",
+    "@testing-library/user-event": "^14.6.1",
+    "@types/jest": "^29.5.14",
     "@types/react": "^18.3.18",
     "@types/react-dom": "^18.3.5",
+    "@types/react-router-dom": "^5.3.3",
     "@vitejs/plugin-react": "^4.3.4",
+    "babel-jest": "^29.7.0",
     "eslint": "^9.19.0",
     "eslint-config-prettier": "^10.0.1",
     "eslint-plugin-prettier": "^5.2.3",
@@ -30,8 +39,13 @@
     "eslint-plugin-react-refresh": "^0.4.16",
     "globals": "^15.14.0",
     "husky": "^9.1.7",
+    "identity-obj-proxy": "^3.0.0",
+    "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0",
     "lint-staged": "^15.4.3",
-    "prettier": "3.4.2",
+    "prettier": "^3.4.2",
+    "ts-jest": "^29.2.5",
+    "ts-node": "^10.9.2",
     "typescript": "~5.6.2",
     "typescript-eslint": "^8.18.2",
     "vite": "^6.0.5"
@@ -41,5 +55,37 @@
       "eslint --fix",
       "prettier --write"
     ]
+  },
+  "jest": {
+    "testEnvironment": "jsdom",
+    "setupFilesAfterEnv": [
+      "./jest.setup.ts"
+    ],
+    "testMatch": [
+      "**/?(*.)+(spec|test).[tj]s?(x)"
+    ],
+    "moduleNameMapper": {
+      "\\.(css|less|scss|sass)$": "identity-obj-proxy"
+    },
+    "collectCoverageFrom": [
+      "src/**/*.tsx",
+      "!src/**/*.d.ts",
+      "!src/**/*.{spec,test}.{js,jsx,ts,tsx}",
+      "!**/node_modules/**",
+      "!**/vendor/**",
+      "!**/dist/**",
+      "!**/build/**",
+      "!vite.config.ts",
+      "!**/coverage/**"
+    ],
+    "coveragePathIgnorePatterns": [
+      "/node_modules/",
+      "./jest.setup.ts",
+      "vite-env.d.ts",
+      "src/App.tsx"
+    ],
+    "transform": {
+      "^.+\\.tsx?$": "ts-jest"
+    }
   }
 }
