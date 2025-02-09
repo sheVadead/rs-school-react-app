@@ -10,7 +10,6 @@ type ItemListProps = {
 };
 
 export const ItemList: FC<ItemListProps> = ({ items, isError }) => {
-  console.log(items);
   return (
     <div className={isError ? style['error-container'] : style.container}>
       {!items.length && <h3>No items found</h3>}
