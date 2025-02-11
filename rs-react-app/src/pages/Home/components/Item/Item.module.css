@@ -1,3 +1,8 @@
+.card-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
 .card {
   display: flex;
   width: 31%;
@@ -13,3 +18,4 @@
   transform: scale(1.05);
   transition: 0.5s;
 }
+

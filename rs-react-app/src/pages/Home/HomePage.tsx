@@ -8,6 +8,8 @@ import { useFetchItems } from './components/SearchInput/hooks/useFetchItems';
 import { useLocalStorage } from './components/SearchInput/hooks/useSearchQuery';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Pagination } from './components/Pagination/Pagination';
+import { useSelector } from 'react-redux';
+import { StarWarsState } from '../../selectors/starWarsItems';
 
 export type HomePageState = {
   items: StarWarsPerson[];

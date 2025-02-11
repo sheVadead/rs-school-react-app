@@ -3,6 +3,9 @@ import { StarWarsPerson } from '../../../../services/starWarsApiClient';
 import style from './ItemList.module.css';
 import { Outlet } from 'react-router-dom';
 import { Item } from '../Item/Item';
+import { useAppDispatch } from '../../../../reduxHooks';
+import { useSelector } from 'react-redux';
+import { StarWarsState } from '../../../../selectors/starWarsItems';
 
 type ItemListProps = {
   items: StarWarsPerson[];
@@ -21,11 +24,7 @@ export const ItemList: FC<ItemListProps> = ({ items, isError }) => {
             <Item key={index} item={item} />
           ))}
 
-          <div
-            style={{ flex: 1, padding: '20px', borderLeft: '1px solid gray' }}
-          >
-            <Outlet context={{}} />
-          </div>
+          <Outlet context={{}} />
         </div>
       )}
     </div>
