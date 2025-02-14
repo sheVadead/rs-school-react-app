@@ -21,16 +21,33 @@ export const starWarsItems = createSlice({
       };
     },
     removeItem: (state, action) => {
+      console.log(
+        state.selectedItems.filter((item) => item === action.payload)
+      );
       return {
         ...state,
         selectedItems: [
-          ...state.selectedItems.filter((item) => item === action.payload),
+          ...state.selectedItems.filter((item) => item.name !== action.payload),
         ],
+      };
+    },
+
+    getItems: (state) => {
+      return {
+        ...state,
+      };
+    },
+
+    clearItems: (state) => {
+      return {
+        ...state,
+        selectedItems: [],
       };
     },
   },
 });
 
-export const { addItem, removeItem } = starWarsItems.actions;
+export const { addItem, removeItem, getItems, clearItems } =
+  starWarsItems.actions;
 
 export default starWarsItems.reducer;

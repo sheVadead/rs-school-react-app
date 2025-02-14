@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react';
+import { FC, useContext, useEffect, useState } from 'react';
 import { SearchInput } from './components/SearchInput/SearchInput';
 import style from './HomePage.module.css';
 import { StarWarsPerson } from '../../services/starWarsApiClient';
@@ -8,8 +8,8 @@ import { useFetchItems } from './components/SearchInput/hooks/useFetchItems';
 import { useLocalStorage } from './components/SearchInput/hooks/useSearchQuery';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Pagination } from './components/Pagination/Pagination';
-import { useSelector } from 'react-redux';
-import { StarWarsState } from '../../selectors/starWarsItems';
+import { Flyout } from './components/Flyout/Flyout';
+import { ThemeContext } from '../../context/themeContext';
 
 export type HomePageState = {
   items: StarWarsPerson[];
@@ -24,12 +24,14 @@ export const HomePage: FC = () => {
     'lastSearchTerm',
     ''
   );
+  const theme = useContext(ThemeContext);
 
   const { pageNumber, itemName } = useParams<{
     pageNumber: string;
     itemName?: string;
   }>();
   const navigate = useNavigate();
+
   const { items, isLoading, isError, count, setFetchedItemsToState } =
     useFetchItems(lastSearchTerm, parseInt(pageNumber || '1', 10));
 
@@ -47,17 +49,18 @@ export const HomePage: FC = () => {
     <>
       {itemName && (
         <div
-          className={style['background']}
+          className={style[`background`]}
           onClick={() => handleOutletClose()}
         />
       )}
-      <main>
+      <main className={`${style['main']} theme-${theme}`}>
         <SearchInput
           setLastSearchTerm={setLastSearchTerm}
           setFetchedItemsToState={setFetchedItemsToState}
           lastSearchTerm={lastSearchTerm}
           routerPageNumber={parseInt(pageNumber || '1', 10)}
         />
+        <Flyout />
         <button
           onClick={() => {
             setIsErrorBoundaryError(() => {

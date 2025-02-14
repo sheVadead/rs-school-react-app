@@ -9,13 +9,19 @@
   min-width: 300px;
   justify-content: center;
   align-items: center;
-  border: 1px solid black;
   height: 100px;
   margin-left: 7px;
+}
+
+.card.light {
+  border: 1px solid black;
+}
+
+.card.dark {
+  border: 1px solid wheat;
 }
 .card:hover {
   cursor: pointer;
   transform: scale(1.05);
   transition: 0.5s;
 }
-

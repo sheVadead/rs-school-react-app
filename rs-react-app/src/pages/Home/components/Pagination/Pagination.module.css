@@ -12,3 +12,7 @@
   justify-content: space-around;
   font-size: 24px;
 }
+
+.theme-dark {
+  color: wheat;
+}

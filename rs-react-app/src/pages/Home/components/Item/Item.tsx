@@ -7,14 +7,17 @@ import {
   removeItem,
   StarWarsState,
 } from '../../../../selectors/starWarsItems';
-import { useMemo } from 'react';
+import { useContext } from 'react';
 import { useSelector } from 'react-redux';
+import { ThemeContext } from '../../../../context/themeContext';
 
 type ItemProps = {
   item: StarWarsPerson;
 };
 
 export const Item = ({ item }: ItemProps) => {
+  const theme = useContext(ThemeContext);
+
   const navigate = useNavigate();
   const { pageNumber } = useParams<{
     pageNumber: string;
@@ -38,10 +41,10 @@ export const Item = ({ item }: ItemProps) => {
 
   const id = item.url.split('/').slice(-2)[0];
   return (
-    <div className={style['card-wrapper']}>
+    <div className={`${style['card-wrapper']} ${style[theme]}`}>
       <div
         onClick={() => handleButtonClick(id)}
-        className={style.card}
+        className={`${style.card} ${style[theme]}`}
         key={item.name}
         data-testid={id}
       >

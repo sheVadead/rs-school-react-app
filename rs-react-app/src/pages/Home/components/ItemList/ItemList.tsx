@@ -3,9 +3,6 @@ import { StarWarsPerson } from '../../../../services/starWarsApiClient';
 import style from './ItemList.module.css';
 import { Outlet } from 'react-router-dom';
 import { Item } from '../Item/Item';
-import { useAppDispatch } from '../../../../reduxHooks';
-import { useSelector } from 'react-redux';
-import { StarWarsState } from '../../../../selectors/starWarsItems';
 
 type ItemListProps = {
   items: StarWarsPerson[];

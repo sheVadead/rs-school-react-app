@@ -1,0 +1,19 @@
+import { Parser } from '@json2csv/plainjs';
+import { StarWarsState } from '../../../../../selectors/starWarsItems';
+import { useSelector } from 'react-redux';
+import { useState } from 'react';
+
+export const useJsonToCsv = () => {
+  const [url, setUrl] = useState('');
+  const selectedItems = useSelector(
+    (state: { starWars: StarWarsState }) => state.starWars.selectedItems
+  );
+
+  const generateDownloadLink = () => {
+    const csvString = new Parser({}).parse(selectedItems);
+    const blob = new Blob([csvString], { type: 'text/csv' });
+    setUrl(URL.createObjectURL(blob));
+  };
+
+  return { url, generateDownloadLink };
+};

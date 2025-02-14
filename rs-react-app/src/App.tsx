@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { HomePage } from './pages/Home/HomePage';
 import { ErrorBoundary } from './sharedComponents/ErrorBoundary/ErrorBoundary';
 import {
@@ -8,6 +8,13 @@ import {
 } from 'react-router-dom';
 import ErrorPage from './pages/Error/NotFoundPage';
 import { Details } from './pages/Home/components/Details/Details';
+import { ThemeContext } from './context/themeContext';
+import './assets/styles/App.css';
+
+export enum Themes {
+  LIGHT = 'light',
+  DARK = 'dark',
+}
 
 const router = createBrowserRouter([
   {
@@ -31,11 +38,27 @@ const router = createBrowserRouter([
 ]);
 
 export const App: React.FC = () => {
+  const [theme, setTheme] = useState(Themes.LIGHT);
   return (
     <>
-      <ErrorBoundary>
-        <RouterProvider router={router} />
-      </ErrorBoundary>
+      <ThemeContext.Provider value={theme}>
+        <>
+          <label htmlFor="theme-switcher">Change theme</label>
+          <input
+            type="checkbox"
+            onChange={() => {
+              setTheme((prev) =>
+                prev === Themes.LIGHT ? Themes.DARK : Themes.LIGHT
+              );
+            }}
+            name="theme-switcher"
+            id="theme-switcher"
+          />
+        </>
+        <ErrorBoundary>
+          <RouterProvider router={router} />
+        </ErrorBoundary>
+      </ThemeContext.Provider>
     </>
   );
 };
