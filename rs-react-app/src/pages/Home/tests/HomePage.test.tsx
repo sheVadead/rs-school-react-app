@@ -22,18 +22,9 @@ jest.mock('../../../sharedComponents/Loader/Loader', () => ({
   Loader: () => <div data-testid="loader">Loader</div>,
 }));
 
-import * as useFetchItemsModule from '../components/SearchInput/hooks/useFetchItems';
 import * as useLocalStorageModule from '../components/SearchInput/hooks/useSearchQuery';
-import { mockedItemList } from '../../../../__mocks__';
 
 const mockSetFetchedItemsToState = jest.fn();
-const mockUseFetchItemsReturn = {
-  items: mockedItemList,
-  isLoading: false,
-  isError: false,
-  count: 1,
-  setFetchedItemsToState: mockSetFetchedItemsToState,
-};
 
 const mockSetLastSearchTerm = jest.fn();
 const mockUseLocalStorageReturn: [string, (value: string) => void] = [
@@ -41,9 +32,7 @@ const mockUseLocalStorageReturn: [string, (value: string) => void] = [
   mockSetLastSearchTerm,
 ];
 
-jest
-  .spyOn(useFetchItemsModule, 'useFetchItems')
-  .mockReturnValue(mockUseFetchItemsReturn);
+
 jest
   .spyOn(useLocalStorageModule, 'useLocalStorage')
   .mockReturnValue(mockUseLocalStorageReturn);
@@ -88,10 +77,6 @@ describe('HomePage Component', () => {
   });
 
   it('renders Loader instead of ItemList when isLoading is true', () => {
-    jest.spyOn(useFetchItemsModule, 'useFetchItems').mockReturnValue({
-      ...mockUseFetchItemsReturn,
-      isLoading: true,
-    });
     render(
       <MemoryRouter initialEntries={['/page/1']}>
         <Routes>
