@@ -28,7 +28,7 @@ export const Flyout: FC = () => {
             </button>
             <a
               href={url}
-              download={`${selectedItems.length}_${selectedItems.length === 1 ? 'person' : 'persons'}`}
+              download={`${selectedItems.length}_${selectedItems.length === 1 ? 'person' : 'persons'}.csv`}
             >
               Download
             </a>
