@@ -1,11 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { StarWarsPerson } from '../services/starWarsApiClient';
-// Define a type for the slice state
+
 export type StarWarsState = {
   selectedItems: StarWarsPerson[];
 };
 
-// Define the initial state using that type
 const initialState: StarWarsState = {
   selectedItems: [],
 };
