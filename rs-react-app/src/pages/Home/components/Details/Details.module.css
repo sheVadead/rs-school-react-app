@@ -9,8 +9,14 @@
   justify-content: flex-end;
 }
 
-.detailsPanel {
-  background: white;
+.detailsPanel-light {
   padding: 20px;
   width: 100%;
+  background-color: white;
+}
+
+.detailsPanel-dark {
+  padding: 20px;
+  width: 100%;
+  background-color: black;
 }

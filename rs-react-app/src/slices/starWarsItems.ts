@@ -21,9 +21,6 @@ export const starWarsItems = createSlice({
       };
     },
     removeItem: (state, action) => {
-      console.log(
-        state.selectedItems.filter((item) => item === action.payload)
-      );
       return {
         ...state,
         selectedItems: [

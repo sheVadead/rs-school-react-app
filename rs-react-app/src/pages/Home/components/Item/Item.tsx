@@ -6,7 +6,7 @@ import {
   addItem,
   removeItem,
   StarWarsState,
-} from '../../../../selectors/starWarsItems';
+} from '../../../../slices/starWarsItems';
 import { useContext } from 'react';
 import { useSelector } from 'react-redux';
 import { ThemeContext } from '../../../../context/themeContext';

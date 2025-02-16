@@ -26,7 +26,6 @@ describe('SearchInput Component', () => {
       <MemoryRouter>
         <SearchInput
           setLastSearchTerm={setLastSearchTerm}
-          setFetchedItemsToState={setFetchedItemsToState}
           lastSearchTerm={initialSearchTerm}
           routerPageNumber={1}
         />
@@ -42,7 +41,6 @@ describe('SearchInput Component', () => {
       <MemoryRouter>
         <SearchInput
           setLastSearchTerm={setLastSearchTerm}
-          setFetchedItemsToState={setFetchedItemsToState}
           lastSearchTerm={initialSearchTerm}
           routerPageNumber={1}
         />
@@ -59,7 +57,6 @@ describe('SearchInput Component', () => {
       <MemoryRouter>
         <SearchInput
           setLastSearchTerm={setLastSearchTerm}
-          setFetchedItemsToState={setFetchedItemsToState}
           lastSearchTerm={initialSearchTerm}
           routerPageNumber={1}
         />
@@ -82,7 +79,6 @@ describe('SearchInput Component', () => {
       <MemoryRouter initialEntries={['/page/2']}>
         <SearchInput
           setLastSearchTerm={setLastSearchTerm}
-          setFetchedItemsToState={setFetchedItemsToState}
           lastSearchTerm={initialSearchTerm}
           routerPageNumber={2}
         />

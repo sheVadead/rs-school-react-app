@@ -10,11 +10,7 @@ import ErrorPage from './pages/Error/NotFoundPage';
 import { Details } from './pages/Home/components/Details/Details';
 import { ThemeContext } from './context/themeContext';
 import './assets/styles/App.css';
-
-export enum Themes {
-  LIGHT = 'light',
-  DARK = 'dark',
-}
+import { Themes } from './types/enums';
 
 const router = createBrowserRouter([
   {

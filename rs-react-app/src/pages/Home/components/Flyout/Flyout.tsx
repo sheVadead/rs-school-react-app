@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import { useSelector } from 'react-redux';
-import { clearItems, StarWarsState } from '../../../../selectors/starWarsItems';
+import { clearItems, StarWarsState } from '../../../../slices/starWarsItems';
 import { useAppDispatch } from '../../../../reduxHooks';
 import style from './Flyout.module.css';
 import { useJsonToCsv } from './hooks/useJsonToCsv';

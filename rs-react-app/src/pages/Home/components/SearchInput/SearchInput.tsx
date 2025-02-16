@@ -1,11 +1,10 @@
-import { ChangeEvent, FormEvent, useContext } from 'react';
+import { FormEvent, useContext, useRef } from 'react';
 import styles from './SearchInput.module.css';
 import { useNavigate } from 'react-router-dom';
 import { ThemeContext } from '../../../../context/themeContext';
 
 interface SearchInputProps {
   setLastSearchTerm: (value: string) => void;
-  setFetchedItemsToState: () => void;
   lastSearchTerm: string;
   routerPageNumber: number;
 }
@@ -14,30 +13,22 @@ export const SearchInput: React.FC<SearchInputProps> = (
   props: SearchInputProps
 ): JSX.Element => {
   const theme = useContext(ThemeContext);
-
-  const {
-    setLastSearchTerm,
-    setFetchedItemsToState,
-    lastSearchTerm,
-    routerPageNumber,
-  } = props;
+  const inputRef = useRef<HTMLInputElement | null>(null);
+  const { setLastSearchTerm, lastSearchTerm, routerPageNumber } = props;
   const navigate = useNavigate();
-  const handleOnInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-    e.preventDefault();
-
-    const value = e.target.value;
-    setLastSearchTerm(value);
-  };
 
   const handleOnSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (inputRef.current) {
+      const searchTerm = inputRef.current.value;
+      setLastSearchTerm(searchTerm);
+      console.log('Submitted search term:', searchTerm);
+    }
 
     if (routerPageNumber !== 1) {
       navigate('/page/1');
       return;
     }
-
-    setFetchedItemsToState();
   };
 
   return (
@@ -47,8 +38,8 @@ export const SearchInput: React.FC<SearchInputProps> = (
     >
       <input
         type="text"
-        value={lastSearchTerm}
-        onChange={handleOnInputChange}
+        defaultValue={lastSearchTerm}
+        ref={inputRef}
         className={`${styles['searchInput']} ${styles[theme]}`}
       />
       <button type="submit" className={`${styles.button} ${styles[theme]}`}>
