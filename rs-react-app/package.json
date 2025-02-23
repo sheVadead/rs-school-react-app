@@ -14,10 +14,14 @@
     "test": "jest --coverage"
   },
   "dependencies": {
+    "@json2csv/plainjs": "^7.0.6",
+    "@reduxjs/toolkit": "^2.5.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "react-redux": "^9.2.0",
     "react-router": "^7.1.5",
-    "react-router-dom": "^7.1.5"
+    "react-router-dom": "^7.1.5",
+    "redux": "^5.0.1"
   },
   "devDependencies": {
     "@eslint/js": "^9.17.0",
@@ -82,7 +86,8 @@
       "/node_modules/",
       "./jest.setup.ts",
       "vite-env.d.ts",
-      "src/App.tsx"
+      "src/App.tsx",
+      "main.tsx"
     ],
     "transform": {
       "^.+\\.tsx?$": "ts-jest"

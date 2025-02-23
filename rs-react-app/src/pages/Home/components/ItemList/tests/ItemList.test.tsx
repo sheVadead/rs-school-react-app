@@ -6,8 +6,17 @@ import {
   mockedItemList,
   mockedItemListResponse,
 } from '../../../../../../__mocks__';
+import { EnhancedStore, configureStore } from '@reduxjs/toolkit';
+import { Provider } from 'react-redux';
+import starWarsReducer from '../../../../../slices/starWarsItems';
 
 const mockNavigate = jest.fn();
+
+import { useAppDispatch as mockedUseAppDispatch } from '../../../../../reduxHooks';
+
+jest.mock('../../../../../reduxHooks', () => ({
+  useAppDispatch: jest.fn(),
+}));
 
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
@@ -15,16 +24,35 @@ jest.mock('react-router-dom', () => ({
 }));
 
 describe('ItemList Component', () => {
+  let store: EnhancedStore;
+  let dispatch: jest.Mock;
+
+  beforeEach(() => {
+    store = configureStore({
+      reducer: {
+        starWars: starWarsReducer,
+      },
+      preloadedState: {
+        starWars: {
+          selectedItems: [],
+        },
+      },
+    });
+    dispatch = jest.fn();
+    (mockedUseAppDispatch as unknown as jest.Mock).mockReturnValue(dispatch);
+  });
   it('renders correctly', () => {
     render(
-      <MemoryRouter initialEntries={['/page/1']}>
-        <Routes>
-          <Route
-            path="/page/:pageNumber"
-            element={<ItemList items={mockedItemList} isError={false} />}
-          />
-        </Routes>
-      </MemoryRouter>
+      <Provider store={store}>
+        <MemoryRouter initialEntries={['/page/1']}>
+          <Routes>
+            <Route
+              path="/page/:pageNumber"
+              element={<ItemList items={mockedItemList} isError={false} />}
+            />
+          </Routes>
+        </MemoryRouter>
+      </Provider>
     );
 
     expect(screen.getByText(/Leya Skywalker/i)).toBeInTheDocument();
@@ -33,14 +61,16 @@ describe('ItemList Component', () => {
 
   it('displays error message', () => {
     render(
-      <MemoryRouter initialEntries={['/page/1']}>
-        <Routes>
-          <Route
-            path="/page/:pageNumber"
-            element={<ItemList items={mockedItemList} isError={true} />}
-          />
-        </Routes>
-      </MemoryRouter>
+      <Provider store={store}>
+        <MemoryRouter initialEntries={['/page/1']}>
+          <Routes>
+            <Route
+              path="/page/:pageNumber"
+              element={<ItemList items={mockedItemList} isError={true} />}
+            />
+          </Routes>
+        </MemoryRouter>
+      </Provider>
     );
 
     expect(
@@ -50,14 +80,16 @@ describe('ItemList Component', () => {
 
   it('renders the specified number of cards', () => {
     render(
-      <MemoryRouter initialEntries={['/page/1']}>
-        <Routes>
-          <Route
-            path="/page/:pageNumber"
-            element={<ItemList items={mockedItemList} isError={false} />}
-          />
-        </Routes>
-      </MemoryRouter>
+      <Provider store={store}>
+        <MemoryRouter initialEntries={['/page/1']}>
+          <Routes>
+            <Route
+              path="/page/:pageNumber"
+              element={<ItemList items={mockedItemList} isError={false} />}
+            />
+          </Routes>
+        </MemoryRouter>
+      </Provider>
     );
 
     const cards = screen.getAllByRole('heading');
@@ -66,14 +98,16 @@ describe('ItemList Component', () => {
 
   it('displays appropriate message if no cards are present', () => {
     render(
-      <MemoryRouter initialEntries={['/page/1']}>
-        <Routes>
-          <Route
-            path="/page/:pageNumber"
-            element={<ItemList items={[]} isError={false} />}
-          />
-        </Routes>
-      </MemoryRouter>
+      <Provider store={store}>
+        <MemoryRouter initialEntries={['/page/1']}>
+          <Routes>
+            <Route
+              path="/page/:pageNumber"
+              element={<ItemList items={[]} isError={false} />}
+            />
+          </Routes>
+        </MemoryRouter>
+      </Provider>
     );
 
     expect(screen.getByText(/No items found/i)).toBeInTheDocument();

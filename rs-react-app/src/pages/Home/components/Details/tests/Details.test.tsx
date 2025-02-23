@@ -1,29 +1,35 @@
 const mockNavigate = jest.fn();
-
+const mockUseGetStarWarsPersonByIdQuery = jest.fn();
 import { render, screen, fireEvent } from '@testing-library/react';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import { Details } from '../Details';
-import { useFetchStarWarsPerson } from '../../SearchInput/hooks/useFetchStarWarsPerson';
 import '@testing-library/jest-dom';
-import { mockedItemDetails } from '../../../../../../__mocks__';
 
-jest.mock('../../SearchInput/hooks/useFetchStarWarsPerson');
+jest.mock('../../../../../slices/api/starWarsApiSlice', () => {
+  return {
+    useGetStarWarsPersonByIdQuery:
+      mockUseGetStarWarsPersonByIdQuery.mockReturnValue({
+        data: {
+          name: 'Luke Skywalker',
+          height: '172',
+          mass: '77',
+          hair_color: 'blond',
+          eye_color: 'blue',
+          birth_year: '19BBY',
+          gender: 'male',
+        },
+      }),
+    useGetStarWarsPersonsBySearchQuery: jest.fn(),
+  };
+});
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
   useNavigate: () => mockNavigate,
 }));
 
-const mockUseFetchStarWarsPerson =
-  useFetchStarWarsPerson as jest.MockedFunction<typeof useFetchStarWarsPerson>;
-
 describe('Details Component', () => {
   beforeEach(() => {
-    mockUseFetchStarWarsPerson.mockReturnValue({
-      item: mockedItemDetails,
-      isLoading: false,
-      isError: false,
-      setFetchedPersonToState: jest.fn(),
-    });
+    jest.clearAllMocks();
   });
 
   it('renders correctly', () => {
@@ -42,13 +48,7 @@ describe('Details Component', () => {
   });
 
   it('displays loading state', () => {
-    mockUseFetchStarWarsPerson.mockReturnValueOnce({
-      item: mockedItemDetails,
-      isLoading: true,
-      isError: false,
-      setFetchedPersonToState: jest.fn(),
-    });
-
+    mockUseGetStarWarsPersonByIdQuery.mockReturnValueOnce({ isFetching: true });
     render(
       <MemoryRouter initialEntries={['/page/1/details/Luke']}>
         <Routes>
@@ -64,12 +64,7 @@ describe('Details Component', () => {
   });
 
   it('displays error message', () => {
-    mockUseFetchStarWarsPerson.mockReturnValueOnce({
-      item: mockedItemDetails,
-      isLoading: false,
-      isError: true,
-      setFetchedPersonToState: jest.fn(),
-    });
+    mockUseGetStarWarsPersonByIdQuery.mockReturnValueOnce({ error: true });
 
     render(
       <MemoryRouter initialEntries={['/page/1/details/Luke']}>
@@ -88,13 +83,6 @@ describe('Details Component', () => {
   });
 
   it('displays character details', () => {
-    mockUseFetchStarWarsPerson.mockReturnValueOnce({
-      item: mockedItemDetails,
-      isLoading: false,
-      isError: false,
-      setFetchedPersonToState: jest.fn(),
-    });
-
     render(
       <MemoryRouter initialEntries={['/page/1/details/Luke']}>
         <Routes>

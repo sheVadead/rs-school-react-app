@@ -1,0 +1,12 @@
+.flyOutContainer {
+  display: flex;
+  flex-direction: column;
+  width: 20%;
+  height: 150px;
+  align-items: center;
+}
+
+.buttonContainer {
+  display: flex;
+  align-items: center;
+}

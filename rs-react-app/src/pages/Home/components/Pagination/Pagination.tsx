@@ -1,10 +1,12 @@
-import { ReactNode } from 'react';
+import { ReactNode, useContext } from 'react';
 import style from './Pagination.module.css';
 import { NavLink } from 'react-router-dom';
+import { ThemeContext } from '../../../../context/themeContext';
+import { Themes } from '../../../../types/enums';
 
 type PaginationProps = {
   children: ReactNode;
-  pageCount: number;
+  pageCount?: number;
 };
 
 function createNumberArray(n: number): number[] {
@@ -12,18 +14,34 @@ function createNumberArray(n: number): number[] {
 }
 
 export const Pagination = ({ children, pageCount }: PaginationProps) => {
+  const theme = useContext(ThemeContext);
+
   return (
     <div className={style.container}>
       <div className={style.navigation}>
-        {createNumberArray(pageCount).map((pageNumber, index) => (
+        {createNumberArray(pageCount ?? 0).map((pageNumber, index) => (
           <NavLink
-            style={({ isActive }) => ({
-              color: isActive ? 'gray' : 'rgba(8, 8, 8, 0.87)',
-            })}
+            style={({ isActive }) => {
+              const style = {} as Record<string, string>;
+              if (isActive) {
+                if (theme === Themes.LIGHT) {
+                  style['color'] = 'gray';
+                } else {
+                  style['color'] = 'wheat';
+                }
+              } else {
+                if (theme === Themes.LIGHT) {
+                  style['color'] = 'black';
+                } else {
+                  style['color'] = 'white';
+                }
+              }
+              return style;
+            }}
             key={index}
             to={`/page/${pageNumber}`}
           >
-            {pageNumber}{' '}
+            {pageNumber}
           </NavLink>
         ))}
       </div>

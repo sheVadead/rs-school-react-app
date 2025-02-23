@@ -1,9 +1,8 @@
 #root {
-  max-width: 1280px;
+  /* max-width: 1280px; */
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
-  width: 1300px;
 }
 
 .logo {
@@ -19,6 +18,14 @@
   filter: drop-shadow(0 0 2em #61dafbaa);
 }
 
+.theme-light {
+  background-color: white;
+}
+
+.theme-dark {
+  background-color: black;
+  color: wheat;
+}
 @keyframes logo-spin {
   from {
     transform: rotate(0deg);

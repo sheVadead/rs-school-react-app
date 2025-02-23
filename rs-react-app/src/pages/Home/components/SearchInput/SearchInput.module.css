@@ -33,3 +33,17 @@
   background-color: black;
   color: white;
 }
+
+.container.dark {
+  color: red;
+}
+
+.button.dark {
+  color: wheat;
+  background-color: black;
+}
+
+.button.dark:hover {
+  background-color: gray;
+  color: white;
+}

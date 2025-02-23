@@ -1,13 +1,15 @@
-import { FC, useEffect, useState } from 'react';
+import { FC, useContext, useState } from 'react';
 import { SearchInput } from './components/SearchInput/SearchInput';
 import style from './HomePage.module.css';
 import { StarWarsPerson } from '../../services/starWarsApiClient';
 import { Loader } from '../../sharedComponents/Loader/Loader';
 import { ItemList } from './components/ItemList/ItemList';
-import { useFetchItems } from './components/SearchInput/hooks/useFetchItems';
 import { useLocalStorage } from './components/SearchInput/hooks/useSearchQuery';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Pagination } from './components/Pagination/Pagination';
+import { Flyout } from './components/Flyout/Flyout';
+import { ThemeContext } from '../../context/themeContext';
+import { useGetStarWarsPersonsBySearchQuery } from '../../slices/api/starWarsApiSlice';
 
 export type HomePageState = {
   items: StarWarsPerson[];
@@ -22,40 +24,40 @@ export const HomePage: FC = () => {
     'lastSearchTerm',
     ''
   );
+  const theme = useContext(ThemeContext);
 
   const { pageNumber, itemName } = useParams<{
     pageNumber: string;
     itemName?: string;
   }>();
   const navigate = useNavigate();
-  const { items, isLoading, isError, count, setFetchedItemsToState } =
-    useFetchItems(lastSearchTerm, parseInt(pageNumber || '1', 10));
 
-  useEffect(() => {
-    setFetchedItemsToState();
-  }, [pageNumber]);
+  const { data, error, isFetching } = useGetStarWarsPersonsBySearchQuery({
+    searchValue: lastSearchTerm,
+    pageNumber: parseInt(pageNumber || '1', 10),
+  });
 
   const handleOutletClose = () => {
     if (itemName) {
       navigate(`/page/${pageNumber}`, { replace: true });
     }
   };
-
+  const isError = error ? true : false;
   return (
     <>
       {itemName && (
         <div
-          className={style['background']}
+          className={style[`background`]}
           onClick={() => handleOutletClose()}
         />
       )}
-      <main>
+      <main className={`${style['main']} theme-${theme}`}>
         <SearchInput
           setLastSearchTerm={setLastSearchTerm}
-          setFetchedItemsToState={setFetchedItemsToState}
           lastSearchTerm={lastSearchTerm}
           routerPageNumber={parseInt(pageNumber || '1', 10)}
         />
+        <Flyout />
         <button
           onClick={() => {
             setIsErrorBoundaryError(() => {
@@ -65,11 +67,11 @@ export const HomePage: FC = () => {
         >
           Trigger Error Boundary error
         </button>
-        <Pagination pageCount={count}>
-          {isLoading ? (
+        <Pagination pageCount={data?.pageCount}>
+          {isFetching ? (
             <Loader />
           ) : (
-            <ItemList items={items} isError={isError} />
+            <ItemList items={data?.results} isError={isError} />
           )}
         </Pagination>
       </main>

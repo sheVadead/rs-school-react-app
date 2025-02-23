@@ -48,7 +48,7 @@ describe('Pagination Component', () => {
     const links = screen.getAllByRole('link');
 
     links.forEach((link, index) => {
-      const expectedColor = index === 1 ? 'gray' : 'rgba(8, 8, 8, 0.87)';
+      const expectedColor = index === 1 ? 'gray' : ' black';
       expect(link).toHaveStyle(`color: ${expectedColor}`);
     });
   });
