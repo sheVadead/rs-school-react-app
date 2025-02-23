@@ -22,7 +22,6 @@ export const SearchInput: React.FC<SearchInputProps> = (
     if (inputRef.current) {
       const searchTerm = inputRef.current.value;
       setLastSearchTerm(searchTerm);
-      console.log('Submitted search term:', searchTerm);
     }
 
     if (routerPageNumber !== 1) {

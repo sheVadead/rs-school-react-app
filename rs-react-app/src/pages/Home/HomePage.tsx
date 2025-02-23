@@ -38,7 +38,6 @@ export const HomePage: FC = () => {
   });
 
   const handleOutletClose = () => {
-    console.log(itemName);
     if (itemName) {
       navigate(`/page/${pageNumber}`, { replace: true });
     }
