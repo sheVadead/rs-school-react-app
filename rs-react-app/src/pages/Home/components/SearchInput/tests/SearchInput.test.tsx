@@ -36,22 +36,6 @@ describe('SearchInput Component', () => {
     expect(input).toHaveValue(initialSearchTerm);
   });
 
-  it('calls setLastSearchTerm when input value changes', () => {
-    render(
-      <MemoryRouter>
-        <SearchInput
-          setLastSearchTerm={setLastSearchTerm}
-          lastSearchTerm={initialSearchTerm}
-          routerPageNumber={1}
-        />
-      </MemoryRouter>
-    );
-
-    const input = screen.getByRole('textbox');
-    fireEvent.change(input, { target: { value: 'new value' } });
-    expect(setLastSearchTerm).toHaveBeenCalledWith('new value');
-  });
-
   it('submits the form and calls setFetchedItemsToState if routerPageNumber is 1', () => {
     render(
       <MemoryRouter>
@@ -70,8 +54,8 @@ describe('SearchInput Component', () => {
     }
     fireEvent.submit(form);
 
-    expect(setFetchedItemsToState).toHaveBeenCalled();
     expect(mockNavigate).not.toHaveBeenCalled();
+    expect(setLastSearchTerm).toHaveBeenCalledWith('initial value');
   });
 
   it('submits the form and navigates to "/page/1" if routerPageNumber is not 1', () => {

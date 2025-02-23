@@ -28,7 +28,11 @@ export const Details: FC = () => {
   const isError = error ? true : false;
 
   return (
-    <div className={style.detailsContainer} onClick={handleClose}>
+    <div
+      data-testid="background"
+      className={style.detailsContainer}
+      onClick={handleClose}
+    >
       <div
         className={`${style[`detailsPanel-${theme}`]} ${theme}`}
         onClick={(e) => e.stopPropagation()}

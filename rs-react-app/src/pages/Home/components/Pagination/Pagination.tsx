@@ -41,7 +41,7 @@ export const Pagination = ({ children, pageCount }: PaginationProps) => {
             key={index}
             to={`/page/${pageNumber}`}
           >
-            {pageNumber}{' '}
+            {pageNumber}
           </NavLink>
         ))}
       </div>

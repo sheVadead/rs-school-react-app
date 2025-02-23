@@ -86,7 +86,8 @@
       "/node_modules/",
       "./jest.setup.ts",
       "vite-env.d.ts",
-      "src/App.tsx"
+      "src/App.tsx",
+      "main.tsx"
     ],
     "transform": {
       "^.+\\.tsx?$": "ts-jest"
