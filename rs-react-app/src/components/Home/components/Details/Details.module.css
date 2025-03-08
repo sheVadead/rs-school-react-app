@@ -7,6 +7,7 @@
   background: rgba(0, 0, 0, 0.5);
   display: flex;
   justify-content: flex-end;
+  color: black;
 }
 
 .detailsPanel-light {
@@ -19,4 +20,5 @@
   padding: 20px;
   width: 100%;
   background-color: black;
+  color: white;
 }

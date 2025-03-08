@@ -67,19 +67,6 @@ describe('Item Component', () => {
     expect(screen.getByText('Luke Skywalker')).toBeInTheDocument();
   });
 
-  it.skip('navigates to the details page when the card is clicked', () => {
-    render(
-      <Provider store={store}>
-        <Item item={mockedItemDetails} />
-      </Provider>
-    );
-
-    const id = mockedItemDetails.url.split('/').slice(-2)[0];
-    const cardElement = screen.getByTestId(id);
-    fireEvent.click(cardElement);
-    expect(mockPush).toHaveBeenCalledWith(`/page/1/details/${id}`);
-  });
-
   it('dispatches addItem when checkbox is checked and removeItem when unchecked', () => {
     render(
       <Provider store={store}>

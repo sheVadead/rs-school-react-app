@@ -24,7 +24,7 @@ type HomePageProps = {
 };
 
 export const HomePage: FC<HomePageProps> = ({ pageNumber }: HomePageProps) => {
-  const [, setIsErrorBoundaryError] = useState<boolean>(false);
+  const [isErrorBoundary, setIsErrorBoundaryError] = useState<boolean>(false);
   const [lastSearchTerm, setLastSearchTerm] = useLocalStorage(
     'lastSearchTerm',
     ''
@@ -41,11 +41,14 @@ export const HomePage: FC<HomePageProps> = ({ pageNumber }: HomePageProps) => {
   });
 
   const handleOutletClose = () => {
-    console.log(details);
     if (details) {
       replace(`/page/${pageNumber}`);
     }
   };
+  if(isErrorBoundary) {
+    throw new Error('Test error for ErrorBoundary');
+
+  }
   const isError = error ? true : false;
   return (
     <>
@@ -65,9 +68,7 @@ export const HomePage: FC<HomePageProps> = ({ pageNumber }: HomePageProps) => {
         <Flyout />
         <button
           onClick={() => {
-            setIsErrorBoundaryError(() => {
-              throw new Error('Test error for ErrorBoundary');
-            });
+            setIsErrorBoundaryError(true);
           }}
         >
           Trigger Error Boundary error

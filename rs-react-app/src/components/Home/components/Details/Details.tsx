@@ -11,7 +11,7 @@ export const Details: FC = () => {
   const router = useRouter();
 
   const { details } = router.query;
-  if (!details) return null;
+
   const {
     data: item,
     error,
