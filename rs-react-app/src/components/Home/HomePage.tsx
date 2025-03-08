@@ -45,9 +45,8 @@ export const HomePage: FC<HomePageProps> = ({ pageNumber }: HomePageProps) => {
       replace(`/page/${pageNumber}`);
     }
   };
-  if(isErrorBoundary) {
+  if (isErrorBoundary) {
     throw new Error('Test error for ErrorBoundary');
-
   }
   const isError = error ? true : false;
   return (

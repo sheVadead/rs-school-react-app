@@ -10,10 +10,9 @@ export default function DetailsPage() {
   return (
     <>
       <ErrorBoundary>
-      <HomePage pageNumber={pageNumber as string} />
+        <HomePage pageNumber={pageNumber as string} />
 
-      {details && <Details />}
-
+        {details && <Details />}
       </ErrorBoundary>
     </>
   );

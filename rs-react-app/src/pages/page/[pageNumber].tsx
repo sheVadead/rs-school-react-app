@@ -7,5 +7,9 @@ export default function Page() {
   const router = useRouter();
   const { pageNumber } = router.query;
 
-  return <ErrorBoundary><HomePage pageNumber={pageNumber as string} /></ErrorBoundary>;
+  return (
+    <ErrorBoundary>
+      <HomePage pageNumber={pageNumber as string} />
+    </ErrorBoundary>
+  );
 }
