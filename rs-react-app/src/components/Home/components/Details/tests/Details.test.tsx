@@ -1,64 +1,52 @@
-const mockNavigate = jest.fn();
-const mockUseGetStarWarsPersonByIdQuery = jest.fn();
+import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
-import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import { Details } from '../Details';
 import '@testing-library/jest-dom';
+import { useRouter } from 'next/router';
 
-jest.mock('../../../../../slices/api/starWarsApiSlice', () => {
-  return {
-    useGetStarWarsPersonByIdQuery:
-      mockUseGetStarWarsPersonByIdQuery.mockReturnValue({
-        data: {
-          name: 'Luke Skywalker',
-          height: '172',
-          mass: '77',
-          hair_color: 'blond',
-          eye_color: 'blue',
-          birth_year: '19BBY',
-          gender: 'male',
-        },
-      }),
-    useGetStarWarsPersonsBySearchQuery: jest.fn(),
-  };
-});
-jest.mock('react-router-dom', () => ({
-  ...jest.requireActual('react-router-dom'),
-  useNavigate: () => mockNavigate,
+const mockUseGetStarWarsPersonByIdQuery = jest.fn();
+
+jest.mock('next/router', () => ({
+  useRouter: jest.fn(),
+}));
+
+jest.mock('../../../../../slices/api/starWarsApiSlice', () => ({
+  useGetStarWarsPersonByIdQuery: () => mockUseGetStarWarsPersonByIdQuery(),
+  useGetStarWarsPersonsBySearchQuery: jest.fn(),
 }));
 
 describe('Details Component', () => {
   beforeEach(() => {
     jest.clearAllMocks();
+    (useRouter as jest.Mock).mockReturnValue({
+      query: { details: '11' },
+      push: jest.fn(),
+    });
+
+    mockUseGetStarWarsPersonByIdQuery.mockReturnValue({
+      data: {
+        name: 'Luke Skywalker',
+        height: '172',
+        mass: '77',
+        hair_color: 'blond',
+        eye_color: 'blue',
+        birth_year: '19BBY',
+        gender: 'male',
+      },
+      isFetching: false,
+      error: null,
+    });
   });
 
   it('renders correctly', () => {
-    render(
-      <MemoryRouter initialEntries={['/page/1/details/Luke']}>
-        <Routes>
-          <Route
-            path="/page/:pageNumber/details/:itemName"
-            element={<Details />}
-          />
-        </Routes>
-      </MemoryRouter>
-    );
+    render(<Details />);
 
     expect(screen.getByText(/Close/i)).toBeInTheDocument();
   });
 
   it('displays loading state', () => {
     mockUseGetStarWarsPersonByIdQuery.mockReturnValueOnce({ isFetching: true });
-    render(
-      <MemoryRouter initialEntries={['/page/1/details/Luke']}>
-        <Routes>
-          <Route
-            path="/page/:pageNumber/details/:itemName"
-            element={<Details />}
-          />
-        </Routes>
-      </MemoryRouter>
-    );
+    render(<Details />);
 
     expect(screen.getByTestId('loader')).toBeInTheDocument();
   });
@@ -66,16 +54,7 @@ describe('Details Component', () => {
   it('displays error message', () => {
     mockUseGetStarWarsPersonByIdQuery.mockReturnValueOnce({ error: true });
 
-    render(
-      <MemoryRouter initialEntries={['/page/1/details/Luke']}>
-        <Routes>
-          <Route
-            path="/page/:pageNumber/details/:itemName"
-            element={<Details />}
-          />
-        </Routes>
-      </MemoryRouter>
-    );
+    render(<Details />);
 
     expect(
       screen.getByText(/Something went wrong. Try again later/i)
@@ -83,16 +62,7 @@ describe('Details Component', () => {
   });
 
   it('displays character details', () => {
-    render(
-      <MemoryRouter initialEntries={['/page/1/details/Luke']}>
-        <Routes>
-          <Route
-            path="/page/:pageNumber/details/:itemName"
-            element={<Details />}
-          />
-        </Routes>
-      </MemoryRouter>
-    );
+    render(<Details />);
 
     expect(screen.getByText(/Luke Skywalker/i)).toBeInTheDocument();
     expect(screen.getByText(/Height: 172/i)).toBeInTheDocument();
@@ -104,18 +74,15 @@ describe('Details Component', () => {
   });
 
   it('navigates back on close button click', () => {
-    render(
-      <MemoryRouter initialEntries={['/page/1/details/1']}>
-        <Routes>
-          <Route
-            path="/page/:pageNumber/details/:itemName"
-            element={<Details />}
-          />
-        </Routes>
-      </MemoryRouter>
-    );
+    const mockReplace = jest.fn();
+    (useRouter as jest.Mock).mockReturnValue({
+      query: { details: '11' },
+      replace: mockReplace,
+    });
+
+    render(<Details />);
 
     fireEvent.click(screen.getByText(/Close/i));
-    expect(mockNavigate).toHaveBeenCalledWith('/page/1', { replace: true });
+    expect(mockReplace).toHaveBeenCalledWith('/page/1');
   });
 });

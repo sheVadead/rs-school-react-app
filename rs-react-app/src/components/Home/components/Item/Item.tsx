@@ -1,3 +1,4 @@
+import React from 'react';
 import { StarWarsPerson } from '../../../../services/starWarsApiClient';
 import style from './Item.module.css';
 import { useAppDispatch } from '../../../../reduxHooks';
@@ -20,10 +21,7 @@ export const Item = ({ item }: ItemProps) => {
   const theme = useContext(ThemeContext);
   const router = useRouter();
   const { pageNumber } = router.query;
-  // const navigate = useNavigate();
-  // const { pageNumber } = useParams<{
-  //   pageNumber: string;
-  // }>();
+
   const dispatch = useAppDispatch();
 
   const selectedItems = useSelector(
@@ -39,11 +37,11 @@ export const Item = ({ item }: ItemProps) => {
   };
 
   const id = item.url.split('/').slice(-2)[0];
+
   return (
     <div className={`${style['card-wrapper']} ${style[theme]}`}>
       <Link
-      href={`/page/${pageNumber}/details/${id}`}
-        // onClick={() => handleButtonClick(id)}
+        href={`/page/${pageNumber}/details/${id}`}
         className={`${style.card} ${style[theme]}`}
         key={item.name}
         data-testid={id}

@@ -1,3 +1,4 @@
+import React from 'react';
 import { ReactNode, useContext } from 'react';
 import style from './Pagination.module.css';
 import NavLink from 'next/link';
@@ -17,18 +18,29 @@ function createNumberArray(n: number): number[] {
 export const Pagination = ({ children, pageCount }: PaginationProps) => {
   const theme = useContext(ThemeContext);
   const router = useRouter();
-  
-const styleW = {
-  color: router.asPath === `page/${router.query.pageNumber}`
-    ? theme === Themes.LIGHT ? 'gray' : 'wheat'
-    : theme === Themes.LIGHT ? 'black' : 'white'
-}
+  const currentPage = Number(router.query.pageNumber) || 1;
+
+  // Style generator function
+  const getLinkStyle = (pageNumber: number) => ({
+    color:
+      currentPage === pageNumber
+        ? theme === Themes.LIGHT
+          ? 'gray'
+          : 'wheat'
+        : theme === Themes.LIGHT
+          ? 'black'
+          : 'white',
+  });
 
   return (
     <div className={style.container}>
       <div className={style.navigation}>
-        {createNumberArray(pageCount ?? 0).map((pageNumber, index) => (
-          <NavLink style={styleW} key={index} href={`/page/${pageNumber}`}>
+        {createNumberArray(pageCount ?? 0).map((pageNumber) => (
+          <NavLink
+            key={pageNumber}
+            href={`/page/${pageNumber}`}
+            style={getLinkStyle(pageNumber)}
+          >
             {pageNumber}
           </NavLink>
         ))}

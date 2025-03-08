@@ -1,3 +1,4 @@
+import React from 'react';
 import { FormEvent, useContext, useRef } from 'react';
 import styles from './SearchInput.module.css';
 import { ThemeContext } from '../../../../context/themeContext';
@@ -15,8 +16,8 @@ export const SearchInput: React.FC<SearchInputProps> = (
   const theme = useContext(ThemeContext);
   const inputRef = useRef<HTMLInputElement | null>(null);
   const router = useRouter();
-  
-  const { setLastSearchTerm, lastSearchTerm, routerPageNumber } = props
+
+  const { setLastSearchTerm, lastSearchTerm, routerPageNumber } = props;
 
   const handleOnSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();

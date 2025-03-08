@@ -1,11 +1,16 @@
+import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { HomePage } from '../HomePage';
 import { ThemeContext } from '../../../context/themeContext';
 import { useGetStarWarsPersonsBySearchQuery } from '../../../slices/api/starWarsApiSlice';
 import { useLocalStorage } from '../components/SearchInput/hooks/useSearchQuery';
-import { BrowserRouter as Router } from 'react-router-dom';
 import '@testing-library/jest-dom';
 import { ErrorBoundary } from '../../../sharedComponents/ErrorBoundary/ErrorBoundary';
+import { useRouter } from 'next/router';
+
+jest.mock('next/router', () => ({
+  useRouter: jest.fn(),
+}));
 
 jest.mock('../components/SearchInput/SearchInput', () => ({
   SearchInput: jest.fn(() => <div>SearchInput</div>),
@@ -38,6 +43,11 @@ jest.mock('../../../slices/api/starWarsApiSlice', () => ({
 describe('HomePage', () => {
   beforeEach(() => {
     jest.clearAllMocks();
+
+    (useRouter as jest.Mock).mockReturnValue({
+      query: {},
+      push: jest.fn(),
+    });
   });
 
   it('should render the HomePage component', () => {
@@ -49,11 +59,9 @@ describe('HomePage', () => {
     });
 
     render(
-      <Router>
-        <ThemeContext.Provider value="light">
-          <HomePage />
-        </ThemeContext.Provider>
-      </Router>
+      <ThemeContext.Provider value="light">
+        <HomePage pageNumber="1" />
+      </ThemeContext.Provider>
     );
 
     expect(screen.getByText('SearchInput')).toBeInTheDocument();
@@ -70,11 +78,9 @@ describe('HomePage', () => {
     });
 
     render(
-      <Router>
-        <ThemeContext.Provider value="light">
-          <HomePage />
-        </ThemeContext.Provider>
-      </Router>
+      <ThemeContext.Provider value="light">
+        <HomePage pageNumber="1" />
+      </ThemeContext.Provider>
     );
 
     expect(screen.getByText('Loader')).toBeInTheDocument();
@@ -89,11 +95,9 @@ describe('HomePage', () => {
     });
 
     render(
-      <Router>
-        <ThemeContext.Provider value="light">
-          <HomePage />
-        </ThemeContext.Provider>
-      </Router>
+      <ThemeContext.Provider value="light">
+        <HomePage pageNumber="1" />
+      </ThemeContext.Provider>
     );
 
     expect(screen.getByText('ItemList')).toBeInTheDocument(); // Assuming the error triggers some error text in ItemList
@@ -108,13 +112,11 @@ describe('HomePage', () => {
     });
 
     render(
-      <Router>
-        <ThemeContext.Provider value="light">
-          <ErrorBoundary>
-            <HomePage />
-          </ErrorBoundary>
-        </ThemeContext.Provider>
-      </Router>
+      <ThemeContext.Provider value="light">
+        <ErrorBoundary>
+          <HomePage pageNumber="1" />
+        </ErrorBoundary>
+      </ThemeContext.Provider>
     );
 
     const button = screen.getByText('Trigger Error Boundary error');

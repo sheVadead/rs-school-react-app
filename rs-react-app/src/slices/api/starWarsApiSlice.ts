@@ -54,7 +54,7 @@ export const starWarsApi = createApi({
       },
     }),
   }),
-  refetchOnMountOrArgChange: true,
+  refetchOnMountOrArgChange: false,
 });
 
 export const {

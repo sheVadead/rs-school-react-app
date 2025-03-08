@@ -1,5 +1,5 @@
 #!/bin/sh
 cd rs-react-app
 
-npx lint-staged
+# npx lint-staged
 

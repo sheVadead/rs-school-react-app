@@ -1,16 +1,14 @@
+import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
-import { MemoryRouter } from 'react-router-dom';
 import { SearchInput } from '../SearchInput';
 import '@testing-library/jest-dom';
+import { useRouter } from 'next/router';
 
-const mockNavigate = jest.fn();
-jest.mock('react-router-dom', () => {
-  const actual = jest.requireActual('react-router-dom');
-  return {
-    ...actual,
-    useNavigate: () => mockNavigate,
-  };
-});
+const mockReplace = jest.fn();
+
+jest.mock('next/router', () => ({
+  useRouter: jest.fn(),
+}));
 
 describe('SearchInput Component', () => {
   const setLastSearchTerm = jest.fn();
@@ -19,17 +17,23 @@ describe('SearchInput Component', () => {
 
   beforeEach(() => {
     jest.clearAllMocks();
+
+    (useRouter as jest.Mock).mockReturnValue({
+      route: '/page/[pageNumber]',
+      pathname: '',
+      query: { pageNumber: '1' },
+      asPath: '',
+      replace: mockReplace,
+    });
   });
 
   it('retrieves value from local storage upon mounting (via props)', () => {
     render(
-      <MemoryRouter>
-        <SearchInput
-          setLastSearchTerm={setLastSearchTerm}
-          lastSearchTerm={initialSearchTerm}
-          routerPageNumber={1}
-        />
-      </MemoryRouter>
+      <SearchInput
+        setLastSearchTerm={setLastSearchTerm}
+        lastSearchTerm={initialSearchTerm}
+        routerPageNumber={1}
+      />
     );
 
     const input = screen.getByRole('textbox');
@@ -38,13 +42,11 @@ describe('SearchInput Component', () => {
 
   it('submits the form and calls setFetchedItemsToState if routerPageNumber is 1', () => {
     render(
-      <MemoryRouter>
-        <SearchInput
-          setLastSearchTerm={setLastSearchTerm}
-          lastSearchTerm={initialSearchTerm}
-          routerPageNumber={1}
-        />
-      </MemoryRouter>
+      <SearchInput
+        setLastSearchTerm={setLastSearchTerm}
+        lastSearchTerm={initialSearchTerm}
+        routerPageNumber={1}
+      />
     );
 
     const searchButton = screen.getByRole('button', { name: /search/i });
@@ -54,19 +56,17 @@ describe('SearchInput Component', () => {
     }
     fireEvent.submit(form);
 
-    expect(mockNavigate).not.toHaveBeenCalled();
+    expect(mockReplace).not.toHaveBeenCalled();
     expect(setLastSearchTerm).toHaveBeenCalledWith('initial value');
   });
 
   it('submits the form and navigates to "/page/1" if routerPageNumber is not 1', () => {
     render(
-      <MemoryRouter initialEntries={['/page/2']}>
-        <SearchInput
-          setLastSearchTerm={setLastSearchTerm}
-          lastSearchTerm={initialSearchTerm}
-          routerPageNumber={2}
-        />
-      </MemoryRouter>
+      <SearchInput
+        setLastSearchTerm={setLastSearchTerm}
+        lastSearchTerm={initialSearchTerm}
+        routerPageNumber={2}
+      />
     );
 
     const searchButton = screen.getByRole('button', { name: /search/i });
@@ -76,7 +76,7 @@ describe('SearchInput Component', () => {
     }
     fireEvent.submit(form);
 
-    expect(mockNavigate).toHaveBeenCalledWith('/page/1');
+    expect(mockReplace).toHaveBeenCalledWith('/page/1');
     expect(setFetchedItemsToState).not.toHaveBeenCalled();
   });
 });

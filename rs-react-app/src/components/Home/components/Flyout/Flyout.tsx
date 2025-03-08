@@ -1,3 +1,4 @@
+import React from 'react';
 import { FC } from 'react';
 import { useSelector } from 'react-redux';
 import { clearItems, StarWarsState } from '../../../../slices/starWarsItems';

@@ -1,3 +1,4 @@
+import React from 'react';
 import { FC, useContext, useState } from 'react';
 import { SearchInput } from './components/SearchInput/SearchInput';
 import style from './HomePage.module.css';
@@ -9,6 +10,7 @@ import { Pagination } from './components/Pagination/Pagination';
 import { Flyout } from './components/Flyout/Flyout';
 import { ThemeContext } from '../../context/themeContext';
 import { useGetStarWarsPersonsBySearchQuery } from '../../slices/api/starWarsApiSlice';
+import { useRouter } from 'next/router';
 
 export type HomePageState = {
   items: StarWarsPerson[];
@@ -27,8 +29,11 @@ export const HomePage: FC<HomePageProps> = ({ pageNumber }: HomePageProps) => {
     'lastSearchTerm',
     ''
   );
+  const {
+    query: { details },
+    replace,
+  } = useRouter();
   const theme = useContext(ThemeContext);
-  const itemName = '';
 
   const { data, error, isFetching } = useGetStarWarsPersonsBySearchQuery({
     searchValue: lastSearchTerm,
@@ -36,15 +41,17 @@ export const HomePage: FC<HomePageProps> = ({ pageNumber }: HomePageProps) => {
   });
 
   const handleOutletClose = () => {
-    if (itemName) {
-      // navigate(`/page/${pageNumber}`, { replace: true });
+    console.log(details);
+    if (details) {
+      replace(`/page/${pageNumber}`);
     }
   };
   const isError = error ? true : false;
   return (
     <>
-      {itemName && (
+      {details && (
         <div
+          data-testid="background"
           className={style[`background`]}
           onClick={() => handleOutletClose()}
         />

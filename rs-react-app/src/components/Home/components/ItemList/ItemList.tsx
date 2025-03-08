@@ -1,3 +1,4 @@
+import React from 'react';
 import { FC } from 'react';
 import { StarWarsPerson } from '../../../../services/starWarsApiClient';
 import style from './ItemList.module.css';
@@ -11,6 +12,8 @@ type ItemListProps = {
 };
 
 export const ItemList: FC<ItemListProps> = ({ items, isError }) => {
+  const router = useRouter();
+  const { details } = router.query;
 
   return (
     <div className={isError ? style['error-container'] : style.container}>
@@ -22,7 +25,7 @@ export const ItemList: FC<ItemListProps> = ({ items, isError }) => {
           {items?.map((item, index) => <Item key={index} item={item} />)}
         </div>
       )}
-       <Details />
+      {details && <Details />}
     </div>
   );
 };
