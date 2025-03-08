@@ -1,28 +1,28 @@
 import { FC, useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
 import style from './Details.module.css';
 import { useParams } from 'react-router';
 import { Loader } from '../../../../sharedComponents/Loader/Loader';
 import { useGetStarWarsPersonByIdQuery } from '../../../../slices/api/starWarsApiSlice';
 import { ThemeContext } from '../../../../context/themeContext';
+import { useRouter } from 'next/router';
+
+type DetailsProps = {
+  characterName: string;
+}
 
 export const Details: FC = () => {
-  const navigate = useNavigate();
   const theme = useContext(ThemeContext);
-
-  const { itemName: characterName, pageNumber } = useParams<{
-    itemName?: string;
-    pageNumber?: string;
-  }>();
-
+  const router = useRouter();
+  const { details } = router.query;
+  if (!details) return null;
   const {
     data: item,
     error,
     isFetching,
-  } = useGetStarWarsPersonByIdQuery(characterName || '');
+  } = useGetStarWarsPersonByIdQuery(details as string || '');
 
   const handleClose = () => {
-    navigate(`/page/${pageNumber || 1}`, { replace: true });
+    // navigate(`/page/${pageNumber || 1}`, { replace: true });
   };
 
   const isError = error ? true : false;

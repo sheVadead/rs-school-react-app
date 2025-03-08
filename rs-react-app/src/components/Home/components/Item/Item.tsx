@@ -1,4 +1,3 @@
-import { useNavigate, useParams } from 'react-router-dom';
 import { StarWarsPerson } from '../../../../services/starWarsApiClient';
 import style from './Item.module.css';
 import { useAppDispatch } from '../../../../reduxHooks';
@@ -10,6 +9,8 @@ import {
 import { useContext } from 'react';
 import { useSelector } from 'react-redux';
 import { ThemeContext } from '../../../../context/themeContext';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 type ItemProps = {
   item: StarWarsPerson;
@@ -17,15 +18,13 @@ type ItemProps = {
 
 export const Item = ({ item }: ItemProps) => {
   const theme = useContext(ThemeContext);
-
-  const navigate = useNavigate();
-  const { pageNumber } = useParams<{
-    pageNumber: string;
-  }>();
+  const router = useRouter();
+  const { pageNumber } = router.query;
+  // const navigate = useNavigate();
+  // const { pageNumber } = useParams<{
+  //   pageNumber: string;
+  // }>();
   const dispatch = useAppDispatch();
-  const handleButtonClick = (id: string) => {
-    navigate(`/page/${pageNumber || 1}/details/${id}`);
-  };
 
   const selectedItems = useSelector(
     (state: { starWars: StarWarsState }) => state.starWars.selectedItems
@@ -42,14 +41,15 @@ export const Item = ({ item }: ItemProps) => {
   const id = item.url.split('/').slice(-2)[0];
   return (
     <div className={`${style['card-wrapper']} ${style[theme]}`}>
-      <div
-        onClick={() => handleButtonClick(id)}
+      <Link
+      href={`/page/${pageNumber}/details/${id}`}
+        // onClick={() => handleButtonClick(id)}
         className={`${style.card} ${style[theme]}`}
         key={item.name}
         data-testid={id}
       >
         <h3>{item.name}</h3>
-      </div>
+      </Link>
       <input
         onChange={(e) => handleCheckboxClick(e)}
         type="checkbox"

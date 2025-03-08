@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "next dev",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "lint:fix": "eslint ./src  --fix",
@@ -16,11 +16,10 @@
   "dependencies": {
     "@json2csv/plainjs": "^7.0.6",
     "@reduxjs/toolkit": "^2.5.1",
+    "next": "^15.2.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-redux": "^9.2.0",
-    "react-router": "^7.1.5",
-    "react-router-dom": "^7.1.5",
     "redux": "^5.0.1"
   },
   "devDependencies": {

@@ -1,7 +1,7 @@
 import { FormEvent, useContext, useRef } from 'react';
 import styles from './SearchInput.module.css';
-import { useNavigate } from 'react-router-dom';
 import { ThemeContext } from '../../../../context/themeContext';
+import { useRouter } from 'next/router';
 
 interface SearchInputProps {
   setLastSearchTerm: (value: string) => void;
@@ -14,8 +14,9 @@ export const SearchInput: React.FC<SearchInputProps> = (
 ): JSX.Element => {
   const theme = useContext(ThemeContext);
   const inputRef = useRef<HTMLInputElement | null>(null);
-  const { setLastSearchTerm, lastSearchTerm, routerPageNumber } = props;
-  const navigate = useNavigate();
+  const router = useRouter();
+  
+  const { setLastSearchTerm, lastSearchTerm, routerPageNumber } = props
 
   const handleOnSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -25,7 +26,7 @@ export const SearchInput: React.FC<SearchInputProps> = (
     }
 
     if (routerPageNumber !== 1) {
-      navigate('/page/1');
+      router.replace('/page/1');
       return;
     }
   };

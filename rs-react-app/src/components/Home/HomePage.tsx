@@ -5,7 +5,6 @@ import { StarWarsPerson } from '../../services/starWarsApiClient';
 import { Loader } from '../../sharedComponents/Loader/Loader';
 import { ItemList } from './components/ItemList/ItemList';
 import { useLocalStorage } from './components/SearchInput/hooks/useSearchQuery';
-import { useNavigate, useParams } from 'react-router-dom';
 import { Pagination } from './components/Pagination/Pagination';
 import { Flyout } from './components/Flyout/Flyout';
 import { ThemeContext } from '../../context/themeContext';
@@ -18,19 +17,18 @@ export type HomePageState = {
   isErrorBoundaryError: boolean;
 };
 
-export const HomePage: FC = () => {
+type HomePageProps = {
+  pageNumber: string;
+};
+
+export const HomePage: FC<HomePageProps> = ({ pageNumber }: HomePageProps) => {
   const [, setIsErrorBoundaryError] = useState<boolean>(false);
   const [lastSearchTerm, setLastSearchTerm] = useLocalStorage(
     'lastSearchTerm',
     ''
   );
   const theme = useContext(ThemeContext);
-
-  const { pageNumber, itemName } = useParams<{
-    pageNumber: string;
-    itemName?: string;
-  }>();
-  const navigate = useNavigate();
+  const itemName = '';
 
   const { data, error, isFetching } = useGetStarWarsPersonsBySearchQuery({
     searchValue: lastSearchTerm,
@@ -39,7 +37,7 @@ export const HomePage: FC = () => {
 
   const handleOutletClose = () => {
     if (itemName) {
-      navigate(`/page/${pageNumber}`, { replace: true });
+      // navigate(`/page/${pageNumber}`, { replace: true });
     }
   };
   const isError = error ? true : false;
@@ -51,7 +49,7 @@ export const HomePage: FC = () => {
           onClick={() => handleOutletClose()}
         />
       )}
-      <main className={`${style['main']} theme-${theme}`}>
+      <main className={`main ${style['main']} theme-${theme}`}>
         <SearchInput
           setLastSearchTerm={setLastSearchTerm}
           lastSearchTerm={lastSearchTerm}
