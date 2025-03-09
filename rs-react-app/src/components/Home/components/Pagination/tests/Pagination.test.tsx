@@ -6,15 +6,11 @@ import { Themes } from '../../../../../types/enums';
 import { ThemeContext } from '../../../../../context/themeContext';
 
 jest.mock('next/navigation', () => ({
-  useRouter: jest
-    .fn()
-    .mockReturnValue({ asPath: '/page/1'}),
+  useRouter: jest.fn().mockReturnValue({ asPath: '/page/1' }),
 }));
 
 jest.mock('next/navigation', () => ({
-  useParams: jest
-    .fn()
-    .mockReturnValue({ details: '1'}),
+  useParams: jest.fn().mockReturnValue({ details: '1' }),
 }));
 
 describe('Pagination Component', () => {

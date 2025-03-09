@@ -10,7 +10,6 @@ type ProvidersProps = {
 };
 
 export const Providers = ({ children, theme }: ProvidersProps) => {
-  console.log(theme);
   return (
     <Provider store={store}>
       <ThemeContext.Provider value={theme}>{children}</ThemeContext.Provider>

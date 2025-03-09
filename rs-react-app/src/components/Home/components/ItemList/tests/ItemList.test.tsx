@@ -41,17 +41,14 @@ describe('ItemList Component', () => {
     (mockedUseAppDispatch as unknown as jest.Mock).mockReturnValue(dispatch);
 
     (useRouter as jest.Mock).mockReturnValue({
-      route: '/page/[pageNumber]',
-      pathname: '',
-      asPath: '',
+      route: '/page/1',
     });
 
     (useParams as jest.Mock).mockReturnValue({
       pageNumber: '1',
-      details: '1',
     });
   });
-  it.only('renders correctly', () => {
+  it('renders correctly', () => {
     render(
       <Provider store={store}>
         <ItemList items={mockedItemList} isError={false} />

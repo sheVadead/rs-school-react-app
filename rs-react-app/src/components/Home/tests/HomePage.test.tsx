@@ -51,7 +51,7 @@ describe('HomePage', () => {
 
     (useParams as jest.Mock).mockReturnValue({
       pageNumber: 1,
-      details: '11'
+      details: '11',
     });
   });
 

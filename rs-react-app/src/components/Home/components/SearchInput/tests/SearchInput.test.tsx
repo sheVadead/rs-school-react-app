@@ -8,7 +8,7 @@ const mockReplace = jest.fn();
 
 jest.mock('next/navigation', () => ({
   useRouter: jest.fn(),
-  useParams: jest.fn()
+  useParams: jest.fn(),
 }));
 
 describe('SearchInput Component', () => {
@@ -26,10 +26,9 @@ describe('SearchInput Component', () => {
       replace: mockReplace,
     });
     (useParams as jest.Mock).mockReturnValue({
-pageNumber: '1',
-details: '11',
+      pageNumber: '1',
+      details: '11',
     });
-
   });
 
   it('retrieves value from local storage upon mounting (via props)', () => {

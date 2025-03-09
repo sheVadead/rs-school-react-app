@@ -9,7 +9,7 @@ import { ThemeContext } from '../../../../context/themeContext';
 
 export const Flyout: FC = () => {
   const theme = useContext(ThemeContext);
-  
+
   const selectedItems = useSelector(
     (state: { starWars: StarWarsState }) => state.starWars.selectedItems
   );
@@ -27,7 +27,11 @@ export const Flyout: FC = () => {
         <>
           <h3>{`Selected: ${selectedItems.length} ${selectedItems.length === 1 ? 'item' : 'items'}`}</h3>
           <div className={style.buttonContainer}>
-            <button className={style[theme]} onClick={() => handleOnClearItems()} type="button">
+            <button
+              className={style[theme]}
+              onClick={() => handleOnClearItems()}
+              type="button"
+            >
               Unselect all
             </button>
             <a

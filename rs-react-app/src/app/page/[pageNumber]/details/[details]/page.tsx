@@ -1,4 +1,4 @@
-"use client"
+'use client';
 
 import React, { FC } from 'react';
 import { Details } from '../../../../../components/Home/components/Details/Details';
@@ -19,6 +19,6 @@ const DetailsPage: FC = () => {
       </ErrorBoundary>
     </>
   );
-}
+};
 
 export default DetailsPage;
