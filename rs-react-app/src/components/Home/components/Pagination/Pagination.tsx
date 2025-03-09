@@ -4,7 +4,8 @@ import style from './Pagination.module.css';
 import NavLink from 'next/link';
 import { ThemeContext } from '../../../../context/themeContext';
 import { Themes } from '../../../../types/enums';
-import { useRouter } from 'next/router';
+import { useParams } from 'next/navigation';
+import { QueryParams } from '../../../../types';
 
 type PaginationProps = {
   children: ReactNode;
@@ -17,10 +18,10 @@ function createNumberArray(n: number): number[] {
 
 export const Pagination = ({ children, pageCount }: PaginationProps) => {
   const theme = useContext(ThemeContext);
-  const router = useRouter();
-  const currentPage = Number(router.query.pageNumber) || 1;
+  const { pageNumber } = useParams<QueryParams>();
+  console.log(theme)
+  const currentPage = Number(pageNumber) || 1;
 
-  // Style generator function
   const getLinkStyle = (pageNumber: number) => ({
     color:
       currentPage === pageNumber

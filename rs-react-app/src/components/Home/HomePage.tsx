@@ -10,7 +10,8 @@ import { Pagination } from './components/Pagination/Pagination';
 import { Flyout } from './components/Flyout/Flyout';
 import { ThemeContext } from '../../context/themeContext';
 import { useGetStarWarsPersonsBySearchQuery } from '../../slices/api/starWarsApiSlice';
-import { useRouter } from 'next/router';
+import { useRouter, useParams } from 'next/navigation';
+import { QueryParams } from '../../types';
 
 export type HomePageState = {
   items: StarWarsPerson[];
@@ -23,14 +24,16 @@ type HomePageProps = {
   pageNumber: string;
 };
 
-export const HomePage: FC<HomePageProps> = ({ pageNumber }: HomePageProps) => {
+export const HomePage: FC<HomePageProps> = () => {
   const [isErrorBoundary, setIsErrorBoundaryError] = useState<boolean>(false);
   const [lastSearchTerm, setLastSearchTerm] = useLocalStorage(
     'lastSearchTerm',
     ''
   );
+  const { pageNumber, details } = useParams<QueryParams>();
+
+  console.log(pageNumber)
   const {
-    query: { details },
     replace,
   } = useRouter();
   const theme = useContext(ThemeContext);

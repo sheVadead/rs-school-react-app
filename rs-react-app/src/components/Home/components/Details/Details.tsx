@@ -4,13 +4,14 @@ import style from './Details.module.css';
 import { Loader } from '../../../../sharedComponents/Loader/Loader';
 import { useGetStarWarsPersonByIdQuery } from '../../../../slices/api/starWarsApiSlice';
 import { ThemeContext } from '../../../../context/themeContext';
-import { useRouter } from 'next/router';
+import { useRouter, useParams } from 'next/navigation';
+import { QueryParams } from '../../../../types';
 
 export const Details: FC = () => {
   const theme = useContext(ThemeContext);
   const router = useRouter();
 
-  const { details } = router.query;
+  const { pageNumber, details } = useParams<QueryParams>();
 
   const {
     data: item,
@@ -19,7 +20,7 @@ export const Details: FC = () => {
   } = useGetStarWarsPersonByIdQuery((details as string) || '');
 
   const handleClose = () => {
-    router.replace(`/page/${router.query.pageNumber || 1}`);
+    router.replace(`/page/${pageNumber || 1}`);
   };
 
   const isError = error ? true : false;

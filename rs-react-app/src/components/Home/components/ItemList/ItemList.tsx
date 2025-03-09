@@ -3,8 +3,9 @@ import { FC } from 'react';
 import { StarWarsPerson } from '../../../../services/starWarsApiClient';
 import style from './ItemList.module.css';
 import { Item } from '../Item/Item';
-import { useRouter } from 'next/router';
+import { useParams } from 'next/navigation';
 import { Details } from '../Details/Details';
+import { QueryParams } from '../../../../types';
 
 type ItemListProps = {
   items?: StarWarsPerson[];
@@ -12,8 +13,7 @@ type ItemListProps = {
 };
 
 export const ItemList: FC<ItemListProps> = ({ items, isError }) => {
-  const router = useRouter();
-  const { details } = router.query;
+  const { details } = useParams<QueryParams>();
 
   return (
     <div className={isError ? style['error-container'] : style.container}>
