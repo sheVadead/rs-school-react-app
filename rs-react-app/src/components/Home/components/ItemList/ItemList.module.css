@@ -1,0 +1,50 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10px;
+  width: 80%;
+  gap: 10px;
+}
+
+.error-container {
+  display: flex;
+  margin-top: 10px;
+  width: 80%;
+  height: 1000px;
+  justify-content: center;
+  align-items: center;
+}
+
+.card {
+  display: flex;
+  width: 31%;
+  min-width: 300px;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid black;
+  height: 100px;
+  margin-left: 7px;
+}
+.card:hover {
+  cursor: pointer;
+  transform: scale(1.05);
+  transition: 0.5s;
+}
+
+.cardContainer {
+  display: flex;
+  margin-top: 10px;
+  width: 100%;
+  flex-wrap: wrap;
+}
+
+/* span {
+  text-align: left;
+}  */
+
+.cardContainer {
+  display: flex;
+  justify-content: space-between;
+}

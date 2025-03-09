@@ -1,0 +1,29 @@
+.card-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.card {
+  display: flex;
+  width: 31%;
+  min-width: 300px;
+  justify-content: center;
+  align-items: center;
+  height: 100px;
+  margin-left: 7px;
+  border: 1px solid black;
+}
+
+.light {
+  color: black;
+}
+
+.card.dark {
+  color: wheat;
+  border: 1px solid wheat;
+}
+.card:hover {
+  cursor: pointer;
+  transform: scale(1.05);
+  transition: 0.5s;
+}
