@@ -22,6 +22,10 @@
   background-color: white;
 }
 
+.dark {
+  background-color: black;
+}
+
 .background-light {
   background-color: rgb(219, 214, 214);
 }
