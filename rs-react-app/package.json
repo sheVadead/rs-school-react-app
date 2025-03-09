@@ -89,7 +89,7 @@
       "./jest.setup.ts",
       "src/App.tsx",
       "main.tsx",
-      "pages"
+      "app"
     ],
     "transform": {
       "^.+\\.tsx?$": "babel-jest"

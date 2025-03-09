@@ -2,12 +2,13 @@ import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { SearchInput } from '../SearchInput';
 import '@testing-library/jest-dom';
-import { useRouter } from 'next/router';
+import { useRouter, useParams } from 'next/navigation';
 
 const mockReplace = jest.fn();
 
-jest.mock('next/router', () => ({
+jest.mock('next/navigation', () => ({
   useRouter: jest.fn(),
+  useParams: jest.fn()
 }));
 
 describe('SearchInput Component', () => {
@@ -21,10 +22,14 @@ describe('SearchInput Component', () => {
     (useRouter as jest.Mock).mockReturnValue({
       route: '/page/[pageNumber]',
       pathname: '',
-      query: { pageNumber: '1' },
       asPath: '',
       replace: mockReplace,
     });
+    (useParams as jest.Mock).mockReturnValue({
+pageNumber: '1',
+details: '11',
+    });
+
   });
 
   it('retrieves value from local storage upon mounting (via props)', () => {

@@ -1,4 +1,4 @@
 export type QueryParams = {
-    pageNumber: string;
-    details: string;
+  pageNumber: string;
+  details: string;
 };

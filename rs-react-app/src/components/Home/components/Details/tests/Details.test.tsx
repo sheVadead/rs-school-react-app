@@ -2,12 +2,13 @@ import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { Details } from '../Details';
 import '@testing-library/jest-dom';
-import { useRouter } from 'next/router';
+import { useRouter, useParams } from 'next/navigation';
 
 const mockUseGetStarWarsPersonByIdQuery = jest.fn();
 
-jest.mock('next/router', () => ({
+jest.mock('next/navigation', () => ({
   useRouter: jest.fn(),
+  useParams: jest.fn(),
 }));
 
 jest.mock('../../../../../slices/api/starWarsApiSlice', () => ({
@@ -19,8 +20,11 @@ describe('Details Component', () => {
   beforeEach(() => {
     jest.clearAllMocks();
     (useRouter as jest.Mock).mockReturnValue({
-      query: { details: '11' },
       push: jest.fn(),
+    });
+
+    (useParams as jest.Mock).mockReturnValue({
+      details: '11',
     });
 
     mockUseGetStarWarsPersonByIdQuery.mockReturnValue({

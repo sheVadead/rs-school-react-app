@@ -9,10 +9,11 @@ import {
 import { EnhancedStore, configureStore } from '@reduxjs/toolkit';
 import { Provider } from 'react-redux';
 import starWarsReducer from '../../../../../slices/starWarsItems';
-import { useRouter } from 'next/router';
+import { useRouter, useParams } from 'next/navigation';
 
-jest.mock('next/router', () => ({
+jest.mock('next/navigation', () => ({
   useRouter: jest.fn(),
+  useParams: jest.fn(),
 }));
 
 import { useAppDispatch as mockedUseAppDispatch } from '../../../../../reduxHooks';
@@ -42,11 +43,15 @@ describe('ItemList Component', () => {
     (useRouter as jest.Mock).mockReturnValue({
       route: '/page/[pageNumber]',
       pathname: '',
-      query: { pageNumber: '1' },
       asPath: '',
     });
+
+    (useParams as jest.Mock).mockReturnValue({
+      pageNumber: '1',
+      details: '1',
+    });
   });
-  it('renders correctly', () => {
+  it.only('renders correctly', () => {
     render(
       <Provider store={store}>
         <ItemList items={mockedItemList} isError={false} />

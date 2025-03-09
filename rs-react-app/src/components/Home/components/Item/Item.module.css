@@ -15,11 +15,14 @@
 
 .card.light {
   border: 1px solid black;
+  color: gray;
 }
 
 .card.dark {
   border: 1px solid wheat;
+  color: wheat;
 }
+
 .card:hover {
   cursor: pointer;
   transform: scale(1.05);

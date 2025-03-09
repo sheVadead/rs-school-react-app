@@ -19,7 +19,7 @@ function createNumberArray(n: number): number[] {
 export const Pagination = ({ children, pageCount }: PaginationProps) => {
   const theme = useContext(ThemeContext);
   const { pageNumber } = useParams<QueryParams>();
-  console.log(theme)
+  console.log(theme);
   const currentPage = Number(pageNumber) || 1;
 
   const getLinkStyle = (pageNumber: number) => ({

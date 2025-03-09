@@ -14,6 +14,7 @@ export const SearchInput: React.FC<SearchInputProps> = (
   props: SearchInputProps
 ): JSX.Element => {
   const theme = useContext(ThemeContext);
+
   const inputRef = useRef<HTMLInputElement | null>(null);
   const router = useRouter();
 

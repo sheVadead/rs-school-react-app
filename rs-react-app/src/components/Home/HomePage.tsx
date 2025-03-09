@@ -32,10 +32,7 @@ export const HomePage: FC<HomePageProps> = () => {
   );
   const { pageNumber, details } = useParams<QueryParams>();
 
-  console.log(pageNumber)
-  const {
-    replace,
-  } = useRouter();
+  const { replace } = useRouter();
   const theme = useContext(ThemeContext);
 
   const { data, error, isFetching } = useGetStarWarsPersonsBySearchQuery({

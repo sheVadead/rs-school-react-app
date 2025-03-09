@@ -6,10 +6,11 @@ import { Item } from '../Item';
 import '@testing-library/jest-dom';
 import { addItem } from '../../../../../slices/starWarsItems';
 import starWarsReducer from '../../../../../slices/starWarsItems';
-import { useRouter } from 'next/router';
+import { useRouter, useParams } from 'next/navigation';
 
-jest.mock('next/router', () => ({
+jest.mock('next/navigation', () => ({
   useRouter: jest.fn(),
+  useParams: jest.fn(),
 }));
 
 jest.mock('../../../../../reduxHooks', () => ({
@@ -53,8 +54,11 @@ describe('Item Component', () => {
     (mockedUseAppDispatch as unknown as jest.Mock).mockReturnValue(dispatch);
 
     (useRouter as jest.Mock).mockReturnValue({
-      query: { details: '11' },
       push: mockPush,
+    });
+
+    (useParams as jest.Mock).mockReturnValue({
+      details: '11',
     });
   });
 
