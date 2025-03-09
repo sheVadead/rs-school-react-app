@@ -11,7 +11,8 @@ import { useContext } from 'react';
 import { useSelector } from 'react-redux';
 import { ThemeContext } from '../../../../context/themeContext';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
+import { useParams } from 'next/navigation';
+import { QueryParams } from '../../../../types';
 
 type ItemProps = {
   item: StarWarsPerson;
@@ -19,8 +20,7 @@ type ItemProps = {
 
 export const Item = ({ item }: ItemProps) => {
   const theme = useContext(ThemeContext);
-  const router = useRouter();
-  const { pageNumber } = router.query;
+  const { pageNumber } = useParams<QueryParams>();
 
   const dispatch = useAppDispatch();
 

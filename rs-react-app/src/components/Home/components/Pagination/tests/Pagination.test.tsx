@@ -5,10 +5,12 @@ import '@testing-library/jest-dom';
 import { Themes } from '../../../../../types/enums';
 import { ThemeContext } from '../../../../../context/themeContext';
 
-jest.mock('next/router', () => ({
-  useRouter: jest
-    .fn()
-    .mockReturnValue({ asPath: '/page/1', query: { pageNumber: '1' } }),
+jest.mock('next/navigation', () => ({
+  useRouter: jest.fn().mockReturnValue({ asPath: '/page/1' }),
+}));
+
+jest.mock('next/navigation', () => ({
+  useParams: jest.fn().mockReturnValue({ details: '1' }),
 }));
 
 describe('Pagination Component', () => {

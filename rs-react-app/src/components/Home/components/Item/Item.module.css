@@ -12,6 +12,7 @@
   height: 100px;
   margin-left: 7px;
   border: 1px solid black;
+  color: gray;
 }
 
 .light {
@@ -21,7 +22,9 @@
 .card.dark {
   color: wheat;
   border: 1px solid wheat;
+  color: wheat;
 }
+
 .card:hover {
   cursor: pointer;
   transform: scale(1.05);

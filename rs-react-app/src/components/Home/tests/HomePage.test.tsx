@@ -6,10 +6,11 @@ import { useGetStarWarsPersonsBySearchQuery } from '../../../slices/api/starWars
 import { useLocalStorage } from '../components/SearchInput/hooks/useSearchQuery';
 import '@testing-library/jest-dom';
 import { ErrorBoundary } from '../../../sharedComponents/ErrorBoundary/ErrorBoundary';
-import { useRouter } from 'next/router';
+import { useRouter, useParams } from 'next/navigation';
 
-jest.mock('next/router', () => ({
+jest.mock('next/navigation', () => ({
   useRouter: jest.fn(),
+  useParams: jest.fn(),
 }));
 
 jest.mock('../components/SearchInput/SearchInput', () => ({
@@ -45,8 +46,12 @@ describe('HomePage', () => {
     jest.clearAllMocks();
 
     (useRouter as jest.Mock).mockReturnValue({
-      query: {},
       push: jest.fn(),
+    });
+
+    (useParams as jest.Mock).mockReturnValue({
+      pageNumber: 1,
+      details: '11',
     });
   });
 

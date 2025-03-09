@@ -23,8 +23,13 @@
     "noUncheckedSideEffectImports": true,
     "allowJs": true,
     "incremental": true,
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ]
   },
-  "include": ["src", "public"],
+  "include": ["public", "src", ".next/types/**/*.ts"],
   "exclude": ["node_modules"]
 }

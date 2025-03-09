@@ -1,12 +1,15 @@
-import React from 'react';
+'use client';
+
+import React, { FC } from 'react';
 import { Details } from '../../../../components/Home/components/Details/Details';
-import { useRouter } from 'next/router';
+import { useParams } from 'next/navigation';
 import { HomePage } from '../../../../components/Home/HomePage';
 import { ErrorBoundary } from '../../../../sharedComponents/ErrorBoundary/ErrorBoundary';
+import { QueryParams } from '../../../../types';
 
-export default function DetailsPage() {
-  const router = useRouter();
-  const { details, pageNumber } = router.query;
+const DetailsPage: FC = () => {
+  const { pageNumber, details } = useParams<QueryParams>();
+
   return (
     <>
       <ErrorBoundary>
@@ -16,4 +19,6 @@ export default function DetailsPage() {
       </ErrorBoundary>
     </>
   );
-}
+};
+
+export default DetailsPage;

@@ -34,10 +34,15 @@
   color: white;
 }
 
-.container.dark {
-  color: red;
+.dark {
+  color: wheat;
+  background-color: black;
 }
 
+.light {
+  color: black;
+  background-color: white;
+}
 .button.dark {
   color: wheat;
   background-color: black;

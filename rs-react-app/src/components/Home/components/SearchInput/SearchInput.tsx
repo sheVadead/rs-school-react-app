@@ -2,7 +2,7 @@ import React from 'react';
 import { FormEvent, useContext, useRef } from 'react';
 import styles from './SearchInput.module.css';
 import { ThemeContext } from '../../../../context/themeContext';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 
 interface SearchInputProps {
   setLastSearchTerm: (value: string) => void;
@@ -14,6 +14,7 @@ export const SearchInput: React.FC<SearchInputProps> = (
   props: SearchInputProps
 ): JSX.Element => {
   const theme = useContext(ThemeContext);
+
   const inputRef = useRef<HTMLInputElement | null>(null);
   const router = useRouter();
 

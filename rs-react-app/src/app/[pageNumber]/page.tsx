@@ -1,11 +1,13 @@
+'use client';
+
 import React from 'react';
-import { useRouter } from 'next/router';
+import { useParams } from 'next/navigation';
 import { HomePage } from '../../components/Home/HomePage';
 import { ErrorBoundary } from '../../sharedComponents/ErrorBoundary/ErrorBoundary';
+import { QueryParams } from '../../types';
 
 export default function Page() {
-  const router = useRouter();
-  const { pageNumber } = router.query;
+  const { pageNumber } = useParams<QueryParams>();
 
   return (
     <ErrorBoundary>
