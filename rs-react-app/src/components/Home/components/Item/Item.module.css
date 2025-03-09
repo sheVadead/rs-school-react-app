@@ -11,14 +11,16 @@
   align-items: center;
   height: 100px;
   margin-left: 7px;
-}
-
-.card.light {
   border: 1px solid black;
   color: gray;
 }
 
+.light {
+  color: black;
+}
+
 .card.dark {
+  color: wheat;
   border: 1px solid wheat;
   color: wheat;
 }
