@@ -18,6 +18,10 @@
   opacity: 0.5;
 }
 
+.light {
+  background-color: white;
+}
+
 .background-light {
   background-color: rgb(219, 214, 214);
 }

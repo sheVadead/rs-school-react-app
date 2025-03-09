@@ -58,7 +58,7 @@ export const HomePage: FC<HomePageProps> = ({ pageNumber }: HomePageProps) => {
           onClick={() => handleOutletClose()}
         />
       )}
-      <main className={`main ${style['main']} theme-${theme}`}>
+      <main className={`main ${style['main']} ${style[theme]}`}>
         <SearchInput
           setLastSearchTerm={setLastSearchTerm}
           lastSearchTerm={lastSearchTerm}
