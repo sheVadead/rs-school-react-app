@@ -18,7 +18,7 @@ export const FormInput: React.FC<FormInputProps> = ({
   error,
   type = 'text',
   password,
-}) => {
+}: FormInputProps) => {
   const fieldError = error[name] && (error[name].message as string);
   const styles = password && name === 'password' ? { height: '140px' } : {};
   return (

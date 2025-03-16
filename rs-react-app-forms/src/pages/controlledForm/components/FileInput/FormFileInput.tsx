@@ -13,7 +13,7 @@ export const FormFileInput: React.FC<FormInputProps> = ({
   name,
   control,
   error,
-}) => {
+}: FormInputProps) => {
   const fieldError = error[name] && (error[name].message as string);
   return (
     <div className={name}>

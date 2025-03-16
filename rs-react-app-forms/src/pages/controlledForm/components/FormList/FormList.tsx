@@ -15,7 +15,7 @@ export const FormList: React.FC<FormListProps> = ({
   control,
   error,
   listItems,
-}) => {
+}: FormListProps) => {
   const fieldError = error[name] && (error[name].message as string);
   return (
     <div>

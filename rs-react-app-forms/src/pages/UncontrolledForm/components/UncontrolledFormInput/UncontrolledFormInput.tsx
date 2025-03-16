@@ -18,7 +18,7 @@ export const UnControlledFormInput: React.FC<UncontrolledFormInputProps> = ({
   type = 'text',
   ref,
   onChange,
-}) => {
+}: UncontrolledFormInputProps) => {
   const password = ref?.current?.value;
   const styles = password && name === 'password' ? { height: '140px' } : {};
   return (

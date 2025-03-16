@@ -66,7 +66,7 @@ export const UnControlledForm = () => {
   };
 
   const onSubmit = async (event: React.FormEvent) => {
-    event.preventDefault()
+    event.preventDefault();
 
     const data = await validateForm();
     if (!data) return;
