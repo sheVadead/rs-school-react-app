@@ -27,9 +27,8 @@ export const MainPage: React.FC = () => {
           : setHighlightUnControlled;
       setHiglightFormByType(true);
 
-      const timer = setTimeout(() => setHiglightFormByType(false), 3000);
-      navigate(location.pathname, { replace: true, state: {} });
-      return () => clearTimeout(timer);
+      setTimeout(() => setHiglightFormByType(false), 3000);
+      navigate(location.pathname, { replace: true });
     }
   }, [location.state, controlledForm, location.pathname, navigate]);
 

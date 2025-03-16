@@ -2,9 +2,14 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  width: 50%;
+  width: 40%;
 }
 
 .highlight {
   background-color: yellow;
+}
+
+.picture {
+  display: flex;
+  flex-direction: column;
 }

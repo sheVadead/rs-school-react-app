@@ -21,6 +21,14 @@ export const FormDataDisplay: React.FC<FormDataDisplayProps> = ({
         {type === FromType.CONTROLLED_FORM ? 'Controlled' : 'Uncontrolled'} Form
         Data
       </h2>
+      <div className={styles.picture}>
+        <strong>Picture:</strong>{' '}
+        {formData.picture ? (
+          <img src={formData.picture as string} alt="Uploaded" width="200" />
+        ) : (
+          'No picture uploaded'
+        )}
+      </div>
       <div>
         <strong>Name:</strong> {formData.name}
       </div>
@@ -42,14 +50,7 @@ export const FormDataDisplay: React.FC<FormDataDisplayProps> = ({
       <div>
         <strong>Terms Accepted:</strong> {formData.terms ? 'Yes' : 'No'}
       </div>
-      <div>
-        <strong>Picture:</strong>{' '}
-        {formData.picture ? (
-          <img src={formData.picture as string} alt="Uploaded" width="100" />
-        ) : (
-          'No picture uploaded'
-        )}
-      </div>
+
       <div>
         <strong>Country:</strong> {formData.country}
       </div>

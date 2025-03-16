@@ -26,12 +26,14 @@ export const ControlledForm: React.FC = () => {
     register,
     handleSubmit,
     control,
+    watch,
     formState: { errors, isDirty },
   } = useForm({
     resolver: yupResolver(getYupFormSchema(countries)),
     mode: 'onChange',
   });
-  const isSubmitDisabled = Boolean(Object.keys(errors).length) || !isDirty;
+
+  const isSubmitDisabled = !isDirty || Boolean(Object.keys(errors).length);
 
   const onSubmit = (data: FormState) => {
     const reader = new FileReader();
@@ -49,6 +51,7 @@ export const ControlledForm: React.FC = () => {
     };
     reader.readAsDataURL(data.picture[0] as Blob);
   };
+  const password = watch('password', '');
 
   return (
     <div className={styles.formWrapper}>
@@ -61,6 +64,7 @@ export const ControlledForm: React.FC = () => {
           type="password"
           control={control}
           error={errors}
+          password={password}
         />
         <FormInput
           name="confirmPassword"
@@ -76,20 +80,6 @@ export const ControlledForm: React.FC = () => {
           optionList={genders}
         />
         <FormFileInput name="picture" control={control} error={errors} />
-        {/* <div>
-          <label htmlFor="picture">Upload Picture:</label>
-          <input
-            type="file"
-            id="picture"
-            {...register('picture')}
-            accept="image/png, image/jpeg"
-          />
-          {
-            <div className="pictures-errorWrapper">
-              {errors.picture && <span>{errors.picture.message}</span>}
-            </div>
-          }
-        </div> */}
         <FormList
           name="country"
           control={control}

@@ -1,6 +1,6 @@
 import * as yup from 'yup';
 
-// const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*]).{8,}$/;
+const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*]).{8,}$/;
 
 export const getYupFormSchema = (countries: string[]) => {
   return yup.object().shape({
@@ -22,11 +22,13 @@ export const getYupFormSchema = (countries: string[]) => {
       .required('Email is required')
       .email('Invalid email format'),
 
-    password: yup.string().required('Password is required'),
-    // .matches(
-    //   passwordRegex,
-    //   'Password must contain: 1 uppercase, 1 lowercase, 1 number, 1 special character'
-    // ),
+    password: yup
+      .string()
+      .required('Password is required')
+      .matches(
+        passwordRegex,
+        'Password must contain: 1 uppercase, 1 lowercase, 1 number, 1 special character'
+      ),
 
     confirmPassword: yup
       .string()

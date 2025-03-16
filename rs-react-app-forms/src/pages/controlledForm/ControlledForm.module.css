@@ -4,6 +4,11 @@
   color: red;
 }
 
+.password-errorWrapper {
+  height: 30px !important;
+  color: red !important;
+}
+
 form {
   max-width: 600px;
   width: 100%;

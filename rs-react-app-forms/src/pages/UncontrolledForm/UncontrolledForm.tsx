@@ -18,7 +18,7 @@ export const UnControlledForm = () => {
   const [errors, setErrors] = useState<
     Partial<Record<keyof FormState, string>>
   >({});
-  const [isFormValid, setIsFormValid] = useState(false);
+  const [isFormValid, setIsFormValid] = useState(true);
 
   const { countries, genders } = useSelector(
     (state: { globalState: GlobalState }) => state.globalState
@@ -47,13 +47,11 @@ export const UnControlledForm = () => {
       country: countryRef.current?.value || '',
     };
     try {
-      setErrors({});
       await schema.validate(data, { abortEarly: false });
-      setIsFormValid(true);
+      setErrors({});
       return data;
     } catch (err) {
       if (err instanceof yup.ValidationError) {
-        setIsFormValid(false);
         const validateErrors: Partial<Record<keyof FormState, string>> = {};
 
         err.inner.forEach(({ path, message }) => {
@@ -62,17 +60,17 @@ export const UnControlledForm = () => {
         });
 
         setErrors(validateErrors);
+        setIsFormValid(true);
       }
     }
   };
 
   const onSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    setErrors({});
 
     const data = await validateForm();
-
-    if (!isFormValid) return;
+    if (!data) return;
+    setErrors({});
 
     const reader = new FileReader();
 
@@ -95,7 +93,7 @@ export const UnControlledForm = () => {
       reader.readAsDataURL(pictureRef.current.files[0]);
     }
   };
-  const isSubmitDisabled = Boolean(Object.keys(errors).length);
+
   return (
     <div className={styles.formWrapper}>
       <form onSubmit={(e) => onSubmit(e)}>
@@ -103,41 +101,41 @@ export const UnControlledForm = () => {
           ref={nameRef}
           name="name"
           error={errors['name']}
-          onChange={() => validateForm()}
+          onChange={() => setErrors({ ...errors, name: '' })}
         />
         <UnControlledFormInput
           ref={ageRef}
           type="number"
           name="age"
           error={errors['age']}
-          onChange={() => validateForm()}
+          onChange={() => setErrors({ ...errors, age: '' })}
         />
         <UnControlledFormInput
           ref={emailRef}
           name="email"
           type="email"
           error={errors['email']}
-          onChange={async () => validateForm()}
+          onChange={async () => setErrors({ ...errors, email: '' })}
         />
         <UnControlledFormInput
           ref={passwordRef}
           name="password"
           error={errors['password']}
-          onChange={async () => validateForm()}
+          onChange={async () => setErrors({ ...errors, password: '' })}
           type="password"
         />
         <UnControlledFormInput
           ref={confirmPasswordRef}
           name="confirmPassword"
           error={errors['confirmPassword']}
-          onChange={async () => validateForm()}
+          onChange={async () => setErrors({ ...errors, confirmPassword: '' })}
           type="password"
         />
 
         <div>
           <label htmlFor="gender">Gender:</label>
           <select
-            onChange={async () => validateForm()}
+            onChange={async () => setErrors({ ...errors, gender: '' })}
             ref={genderRef}
             id="gender"
           >
@@ -160,7 +158,7 @@ export const UnControlledForm = () => {
             id="picture"
             ref={pictureRef}
             accept="image/png, image/jpeg"
-            onChange={() => validateForm()}
+            onChange={async () => setErrors({ ...errors, picture: '' })}
           />
           <div className={`picture-errorWrapper`}>
             {<span>{errors['picture']}</span>}
@@ -169,7 +167,11 @@ export const UnControlledForm = () => {
 
         <div>
           <label htmlFor="country">Country:</label>
-          <select onChange={() => validateForm()} id="country" ref={countryRef}>
+          <select
+            id="country"
+            onChange={async () => setErrors({ ...errors, country: '' })}
+            ref={countryRef}
+          >
             <option value="">Select Country</option>
             {countries.map((country) => (
               <option key={country} value={country}>
@@ -185,7 +187,7 @@ export const UnControlledForm = () => {
         <div>
           <label htmlFor="terms">
             <input
-              onChange={() => validateForm()}
+              onChange={async () => setErrors({ ...errors, terms: '' })}
               ref={termsRef}
               type="checkbox"
               id="terms"
@@ -197,7 +199,7 @@ export const UnControlledForm = () => {
           </div>
         </div>
 
-        <button disabled={isSubmitDisabled} type="submit">
+        <button disabled={!isFormValid} type="submit">
           Submit
         </button>
       </form>
