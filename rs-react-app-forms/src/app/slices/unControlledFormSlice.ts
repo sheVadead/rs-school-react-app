@@ -1,16 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-
-export interface FormState {
-  name: string;
-  age: number;
-  email: string;
-  password: string;
-  confirmPassword: string;
-  gender: string;
-  terms: NonNullable<boolean>;
-  picture: NonNullable<string | FileList>;
-  country: string;
-}
+import { FormState } from './controlledFormSlice';
 
 const initialState: FormState = {
   name: '',
@@ -24,8 +13,8 @@ const initialState: FormState = {
   country: '',
 };
 
-const controlledFormSlice = createSlice({
-  name: 'controlledForm',
+const unControlledFormSlice = createSlice({
+  name: 'unControlledForm',
   initialState,
   reducers: {
     resetForm: () => initialState,
@@ -34,7 +23,6 @@ const controlledFormSlice = createSlice({
       state,
       action: PayloadAction<FormState>
     ) => {
-      console.log('Setting form data', action.payload);
      return { ...state, ...action.payload };
     },
   },
@@ -43,6 +31,6 @@ const controlledFormSlice = createSlice({
 export const {
   resetForm,
   setFormData,
-} = controlledFormSlice.actions;
+} = unControlledFormSlice.actions;
 
-export default controlledFormSlice.reducer;
+export default unControlledFormSlice.reducer;

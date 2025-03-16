@@ -1,30 +1,33 @@
 import { Link, Route, Routes } from 'react-router';
-import { ControlledForm } from './pages/controlledForm/ControlledForm';
-
+import { ControlledForm } from './pages/ControlledForm/ControlledForm';
+import { RoutesEnum } from './constants';
+import './App.css';
+import { MainPage } from './pages/Main/Main';
+import { UnControlledForm } from './pages/UncontrolledForm/UncontrolledForm';
 const App = () => {
   return (
     <>
-      <h1>React Router</h1>
-
       <Navigation />
       <Routes>
         <Route path="controlledForm" element={<ControlledForm />} />
-        {/* <Route path="uncontrolledForm" element={<Users />} /> */}
+        <Route path="/" element={<MainPage />} />
+        <Route path="uncontrolledForm" element={<UnControlledForm />} />
       </Routes>
     </>
   );
 };
 
 const Navigation = () => {
+  const { pathname } = window.location;
+  const base = [
+    RoutesEnum.ControlledForm,
+    RoutesEnum.UncontrolledForm,
+  ].includes(pathname as RoutesEnum);
+  console.log(base);
   return (
-    <nav
-      style={{
-        borderBottom: 'solid 1px',
-        paddingBottom: '1rem',
-      }}
-    >
-      <Link to="/home">Home</Link>
-      <Link to="/users">Users</Link>
+    <nav>
+      <Link to="/controlledForm">Controlled Form</Link>
+      <Link to="/uncontrolledForm">Uncontrolled Form</Link>
     </nav>
   );
 };

@@ -1,10 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit'
 import controlledFormReducer from './slices/controlledFormSlice'
-// ...
+import globalSliceReducer from './slices/globalSlice'
+import unControlledFormSlice from './slices/unControlledFormSlice'
 
 export const store = configureStore({
   reducer: {
     controlledForm: controlledFormReducer,
+    unControlledForm: unControlledFormSlice,
+    globalState: globalSliceReducer,
   }
 })
 

@@ -1,23 +1,23 @@
-import { ControlledFormState } from '../../../../app/slices/controlledFormSlice';
+import { FormState } from '../../../../app/slices/controlledFormSlice';
 import { Control, Controller, FieldErrors } from 'react-hook-form';
 
-type ControlledFormStateText = keyof Omit<
-  ControlledFormState,
+type FormStateText = keyof Omit<
+  FormState,
   'countries' | 'terms' | 'genders'
 >;
 
 interface FormListProps {
-  name: ControlledFormStateText;
-  control: Control<Omit<ControlledFormState, 'countries' | 'genders'>>;
+  name: FormStateText;
+  control: Control<Omit<FormState, 'countries' | 'genders'>>;
   error: FieldErrors;
-  countries: string[];
+  listItems: string[];
 }
 
 export const FormList: React.FC<FormListProps> = ({
   name,
   control,
   error,
-  countries
+  listItems
 }) => {
   const fieldError = error[name] && (error[name].message as string);
   return (
@@ -31,12 +31,14 @@ export const FormList: React.FC<FormListProps> = ({
           <input type="text" id={name} {...field} list={`${name}-list`} />
         )}
       />
-      <datalist id="country-list">
-        {countries.map((country) => (
-          <option key={country} value={country} />
+      <datalist id={`${name}-list`}>
+        {listItems.map((item) => (
+          <option key={item} value={item} />
         ))}
       </datalist>
-      <span>{fieldError}</span>
+      <div className={`${name}-errorWrapper`}>
+        <span>{fieldError}</span>
+      </div>
     </div>
   );
 };

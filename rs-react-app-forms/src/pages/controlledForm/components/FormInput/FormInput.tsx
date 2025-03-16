@@ -1,14 +1,14 @@
-import { ControlledFormState } from '../../../../app/slices/controlledFormSlice';
+import { FormState } from '../../../../app/slices/controlledFormSlice';
 import { Control, Controller, FieldErrors } from 'react-hook-form';
-
-type ControlledFormStateText = keyof Omit<
-  ControlledFormState,
-  'countries' | 'terms' | 'genders'
+import { capitalaze } from '../../../../utils';
+import './FormInput.module.css';
+type FormStateText = keyof Omit<
+  FormState, 'terms' | 'picture'
 >;
 
 interface FormInputProps {
-  name: ControlledFormStateText;
-  control: Control<Omit<ControlledFormState, 'countries' | 'genders'>>;
+  name: FormStateText;
+  control: Control<FormState>;
   error: FieldErrors;
   type?: string;
 }
@@ -21,8 +21,8 @@ export const FormInput: React.FC<FormInputProps> = ({
 }) => {
   const fieldError = error[name] && (error[name].message as string);
   return (
-    <div>
-      <label htmlFor={name}>{name}</label>
+    <div className={name}>
+      <label htmlFor={name}>{capitalaze(name)}</label>
       <Controller
         name={name}
         control={control}
@@ -31,7 +31,9 @@ export const FormInput: React.FC<FormInputProps> = ({
           <input type={type} id={name} {...field} list={name} />
         )}
       />
-      <span>{fieldError}</span>
+      <div className={`${name}-errorWrapper`}>
+        <span>{fieldError}</span>
+      </div>
     </div>
   );
 };
