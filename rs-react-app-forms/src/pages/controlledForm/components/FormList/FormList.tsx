@@ -1,10 +1,7 @@
 import { FormState } from '../../../../app/slices/controlledFormSlice';
 import { Control, Controller, FieldErrors } from 'react-hook-form';
 
-type FormStateText = keyof Omit<
-  FormState,
-  'countries' | 'terms' | 'genders'
->;
+type FormStateText = keyof Omit<FormState, 'countries' | 'terms' | 'genders'>;
 
 interface FormListProps {
   name: FormStateText;
@@ -17,7 +14,7 @@ export const FormList: React.FC<FormListProps> = ({
   name,
   control,
   error,
-  listItems
+  listItems,
 }) => {
   const fieldError = error[name] && (error[name].message as string);
   return (
@@ -25,7 +22,7 @@ export const FormList: React.FC<FormListProps> = ({
       <label htmlFor="country">Country:</label>
       <Controller
         name="country"
-        defaultValue=''
+        defaultValue=""
         control={control}
         render={({ field }) => (
           <input type="text" id={name} {...field} list={`${name}-list`} />

@@ -2,9 +2,7 @@ import { FormState } from '../../../../app/slices/controlledFormSlice';
 import { Control, Controller, FieldErrors } from 'react-hook-form';
 import { capitalaze } from '../../../../utils';
 import './FormInput.module.css';
-type FormStateText = keyof Omit<
-  FormState, 'terms' | 'picture'
->;
+type FormStateText = keyof Omit<FormState, 'terms' | 'picture'>;
 
 interface FormInputProps {
   name: FormStateText;

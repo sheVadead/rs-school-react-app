@@ -1,16 +1,16 @@
 .highlight {
-    border: 2px solid red;
-    background-color: yellow;
-  }
+  border: 2px solid red;
+  background-color: yellow;
+}
 
-  .formDataWrapper {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  }
+.formDataWrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
 
-  .formDataContainer {
-    display: flex;
-    justify-content: center;
-  }
+.formDataContainer {
+  display: flex;
+  justify-content: center;
+}

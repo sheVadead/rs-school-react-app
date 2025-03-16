@@ -7,13 +7,9 @@ export const getYupFormSchema = (countries: string[]) => {
     name: yup
       .string()
       .required('Name is required')
-      .test(
-        'capitalized',
-        'First letter must be uppercase',
-        (value) => {
-          return !!value && value[0] === value[0].toUpperCase()
-        }
-      ),
+      .test('capitalized', 'First letter must be uppercase', (value) => {
+        return !!value && value[0] === value[0].toUpperCase();
+      }),
 
     age: yup
       .number()
@@ -26,13 +22,11 @@ export const getYupFormSchema = (countries: string[]) => {
       .required('Email is required')
       .email('Invalid email format'),
 
-    password: yup
-      .string()
-      .required('Password is required'),
-      // .matches(
-      //   passwordRegex,
-      //   'Password must contain: 1 uppercase, 1 lowercase, 1 number, 1 special character'
-      // ),
+    password: yup.string().required('Password is required'),
+    // .matches(
+    //   passwordRegex,
+    //   'Password must contain: 1 uppercase, 1 lowercase, 1 number, 1 special character'
+    // ),
 
     confirmPassword: yup
       .string()
@@ -60,6 +54,9 @@ export const getYupFormSchema = (countries: string[]) => {
         return file && file.size <= 2 * 1024 * 1024;
       }),
 
-    country: yup.string().oneOf(countries, 'Selected country is not valid').required('Country is required'),
+    country: yup
+      .string()
+      .oneOf(countries, 'Selected country is not valid')
+      .required('Country is required'),
   });
 };

@@ -16,18 +16,12 @@ export const UnControlledFormInput: React.FC<UncontrolledFormInputProps> = ({
   error,
   type = 'text',
   ref,
-  onChange
+  onChange,
 }) => {
   return (
     <div className={name}>
       <label htmlFor={name}>{capitalaze(name)}</label>
-      <input
-        onChange={onChange}
-        ref={ref}
-        type={type}
-        id={name}
-        list={name}
-      />
+      <input onChange={onChange} ref={ref} type={type} id={name} list={name} />
       <div className={`${name}-errorWrapper`}>
         <span>{error && error}</span>
       </div>

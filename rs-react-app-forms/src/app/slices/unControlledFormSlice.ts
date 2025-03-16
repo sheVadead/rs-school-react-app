@@ -19,18 +19,12 @@ const unControlledFormSlice = createSlice({
   reducers: {
     resetForm: () => initialState,
 
-    setFormData: (
-      state,
-      action: PayloadAction<FormState>
-    ) => {
-     return { ...state, ...action.payload };
+    setFormData: (state, action: PayloadAction<FormState>) => {
+      return { ...state, ...action.payload };
     },
   },
 });
 
-export const {
-  resetForm,
-  setFormData,
-} = unControlledFormSlice.actions;
+export const { resetForm, setFormData } = unControlledFormSlice.actions;
 
 export default unControlledFormSlice.reducer;

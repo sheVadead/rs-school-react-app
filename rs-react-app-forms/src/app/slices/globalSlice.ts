@@ -3,7 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 export type GenderOptions = {
   option: string;
   disabled?: boolean;
-}
+};
 
 export interface GlobalState {
   countries: string[];
@@ -25,11 +25,7 @@ const initialState: GlobalState = {
     'Japan',
     'Australia',
   ],
-  genders: [
-    'Femail',
-    'Male',
-    'other',
-  ],
+  genders: ['Femail', 'Male', 'other'],
 };
 
 const globalSlice = createSlice({

@@ -169,11 +169,7 @@ export const UnControlledForm = () => {
 
         <div>
           <label htmlFor="country">Country:</label>
-          <select
-            onChange={() => validateForm()}
-            id="country"
-            ref={countryRef}
-          >
+          <select onChange={() => validateForm()} id="country" ref={countryRef}>
             <option value="">Select Country</option>
             {countries.map((country) => (
               <option key={country} value={country}>

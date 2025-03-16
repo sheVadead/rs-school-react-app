@@ -36,11 +36,7 @@ export const FormSelect: React.FC<FormInputProps> = ({
               Select a {name}
             </option>
             {optionList.map((option) => (
-              <option
-                defaultChecked
-                key={option}
-                value={option}
-              >
+              <option defaultChecked key={option} value={option}>
                 {option}
               </option>
             ))}

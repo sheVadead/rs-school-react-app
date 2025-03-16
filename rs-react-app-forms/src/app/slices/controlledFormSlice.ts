@@ -30,18 +30,12 @@ const controlledFormSlice = createSlice({
   reducers: {
     resetForm: () => initialState,
 
-    setFormData: (
-      state,
-      action: PayloadAction<FormState>
-    ) => {
-     return { ...state, ...action.payload };
+    setFormData: (state, action: PayloadAction<FormState>) => {
+      return { ...state, ...action.payload };
     },
   },
 });
 
-export const {
-  resetForm,
-  setFormData,
-} = controlledFormSlice.actions;
+export const { resetForm, setFormData } = controlledFormSlice.actions;
 
 export default controlledFormSlice.reducer;

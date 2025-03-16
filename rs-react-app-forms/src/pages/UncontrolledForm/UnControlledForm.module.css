@@ -1,4 +1,4 @@
-[class$="-errorWrapper"] {
+[class$='-errorWrapper'] {
   font-size: 12px;
   height: 15px;
   color: red;
@@ -24,11 +24,11 @@ form label {
   font-weight: bold;
 }
 
-form input[type="text"],
-form input[type="number"],
-form input[type="email"],
-form input[type="password"],
-form input[type="file"],
+form input[type='text'],
+form input[type='number'],
+form input[type='email'],
+form input[type='password'],
+form input[type='file'],
 form select {
   width: 100%;
   padding: 8px;
@@ -37,7 +37,7 @@ form select {
   border-radius: 5px;
 }
 
-form input[type="checkbox"] {
+form input[type='checkbox'] {
   margin-right: 10px;
 }
 
@@ -55,5 +55,3 @@ form button:disabled {
   background-color: #ccc;
   cursor: not-allowed;
 }
-
-
