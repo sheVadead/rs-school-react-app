@@ -1,0 +1,3 @@
+cd rs-react-app-forms
+
+npm run lint
