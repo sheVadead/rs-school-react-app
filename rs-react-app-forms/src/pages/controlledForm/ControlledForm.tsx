@@ -55,6 +55,7 @@ export const ControlledForm: React.FC = () => {
 
   return (
     <div className={styles.formWrapper}>
+      <h1>Controlled Form</h1>
       <form onSubmit={handleSubmit(onSubmit)}>
         <FormInput name="name" control={control} error={errors} />
         <FormInput name="age" type="number" control={control} error={errors} />

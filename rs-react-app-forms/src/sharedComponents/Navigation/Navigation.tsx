@@ -34,7 +34,6 @@ export const Navigation = () => {
 
   return (
     <nav>
-      <h1>Navigation</h1>
       <div className={styles.navigationWrapper}>{renderLinks()}</div>
     </nav>
   );

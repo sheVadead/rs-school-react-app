@@ -96,6 +96,7 @@ export const UnControlledForm = () => {
 
   return (
     <div className={styles.formWrapper}>
+      <h1>Uncontrolled Form</h1>
       <form onSubmit={(e) => onSubmit(e)}>
         <UnControlledFormInput
           ref={nameRef}
