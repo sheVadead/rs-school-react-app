@@ -8,8 +8,10 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "format:fix": "prettier --write ."
-  },
+    "format:fix": "prettier --write .",
+    "prepare": "husky .husky", 
+    "lint:fix": "eslint --fix ."
+  },  
   "dependencies": {
     "@hookform/resolvers": "^4.1.3",
     "@reduxjs/toolkit": "^2.6.1",
