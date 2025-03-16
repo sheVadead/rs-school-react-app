@@ -1,8 +1,6 @@
 import React, { useRef, useState } from 'react';
-import { set, useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
 import { useDispatch, useSelector } from 'react-redux';
-import { FormState, setFormData } from '../../app/slices/controlledFormSlice';
+import { FormState } from '../../app/slices/controlledFormSlice';
 import { useNavigate } from 'react-router-dom';
 import { GlobalState } from '../../app/slices/globalSlice';
 import styles from './UnControlledForm.module.css';
@@ -11,6 +9,7 @@ import { FromType } from '../../constants';
 import * as yup from 'yup';
 import { getYupFormSchema } from '../../app/schema/controlledFormSchema';
 import { UnControlledFormInput } from './components/UncontrolledFormInput/UncontrolledFormInput';
+import { setFormData } from '../../app/slices/unControlledFormSlice';
 
 export const UnControlledForm = () => {
   const dispatch = useDispatch();
@@ -19,6 +18,7 @@ export const UnControlledForm = () => {
   const [errors, setErrors] = useState<
     Partial<Record<keyof FormState, string>>
   >({});
+  const [isFormValid, setIsFormValid] = useState(false);
 
   const { countries, genders } = useSelector(
     (state: { globalState: GlobalState }) => state.globalState
@@ -33,9 +33,8 @@ export const UnControlledForm = () => {
   const countryRef = useRef<HTMLSelectElement>(null);
   const pictureRef = useRef<HTMLInputElement>(null);
 
-  const onSubmit = async (event: React.FormEvent) => {
-    event.preventDefault();
-
+  const validateForm = async () => {
+    const schema = getYupFormSchema(countries);
     const data: FormState = {
       name: nameRef.current?.value || '',
       age: parseInt(ageRef.current?.value || '0', 10),
@@ -47,86 +46,101 @@ export const UnControlledForm = () => {
       picture: pictureRef.current?.files || new DataTransfer().files,
       country: countryRef.current?.value || '',
     };
-
-    console.log(data);
-    const schema = getYupFormSchema(countries);
-    console.log('Yup Schema:', schema);
     try {
+      setErrors({});
       await schema.validate(data, { abortEarly: false });
-
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        dispatch(
-          setFormData({
-            ...data,
-            picture: reader.result as string,
-          })
-        );
-        navigate('/', {
-          state: { newData: true, formType: FromType.UNCONTROLLED_FORM },
-        });
-      };
-      if (
-        pictureRef.current &&
-        pictureRef.current.files &&
-        pictureRef.current.files[0]
-      ) {
-        reader.readAsDataURL(pictureRef.current.files[0]);
-      } else {
-        dispatch(setFormData(data));
-        navigate('/', {
-          state: { newData: true, formType: FromType.UNCONTROLLED_FORM },
-        });
-      }
+      setIsFormValid(true);
+      return data;
     } catch (err) {
       if (err instanceof yup.ValidationError) {
-        const validationErrors: Partial<Record<keyof FormState, string>> = {};
-        err.inner.forEach((error) => {
-          const { path, message } = error;
+        setIsFormValid(false);
+        const validateErrors: Partial<Record<keyof FormState, string>> = {};
 
-          if (!path) return;
-
-          validationErrors[path as keyof FormState] = message;
-          console.log(error.path);
+        err.inner.forEach(({ path, message }) => {
+          const key = path as keyof FormState;
+          validateErrors[key] = message;
         });
 
-        setErrors(validationErrors);
+        setErrors(validateErrors);
       }
     }
   };
 
+  const onSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
+    setErrors({});
+
+    const data = await validateForm();
+
+    if (!isFormValid) return;
+
+    const reader = new FileReader();
+
+    reader.onloadend = () => {
+      dispatch(
+        setFormData({
+          ...data,
+          picture: reader.result as string,
+        })
+      );
+      navigate('/', {
+        state: { newData: true, formType: FromType.UNCONTROLLED_FORM },
+      });
+    };
+    if (
+      pictureRef.current &&
+      pictureRef.current.files &&
+      pictureRef.current.files[0]
+    ) {
+      reader.readAsDataURL(pictureRef.current.files[0]);
+    }
+  };
+  const isSubmitDisabled = Boolean(Object.keys(errors).length);
   return (
     <div className={styles.formWrapper}>
       <form onSubmit={(e) => onSubmit(e)}>
-        <UnControlledFormInput ref={nameRef} name="name" />
+        <UnControlledFormInput
+          ref={nameRef}
+          name="name"
+          error={errors['name']}
+          onChange={() => validateForm()}
+        />
         <UnControlledFormInput
           ref={ageRef}
           type="number"
           name="age"
-          error={errors}
+          error={errors['age']}
+          onChange={() => validateForm()}
         />
         <UnControlledFormInput
           ref={emailRef}
           name="email"
           type="email"
-          //   error={errors}
+          error={errors['email']}
+          onChange={async () => validateForm()}
         />
         <UnControlledFormInput
           ref={passwordRef}
           name="password"
-          //   error={errors}
+          error={errors['password']}
+          onChange={async () => validateForm()}
           type="password"
         />
         <UnControlledFormInput
           ref={confirmPasswordRef}
           name="confirmPassword"
-          //   error={errors}
+          error={errors['confirmPassword']}
+          onChange={async () => validateForm()}
           type="password"
         />
 
         <div>
           <label htmlFor="gender">Gender:</label>
-          <select ref={genderRef} id="gender">
+          <select
+            onChange={async () => validateForm()}
+            ref={genderRef}
+            id="gender"
+          >
             <option value="">Select Gender</option>
             {genders.map((gender) => (
               <option key={gender} value={gender}>
@@ -135,7 +149,7 @@ export const UnControlledForm = () => {
             ))}
           </select>
           <div className={`gender-errorWrapper`}>
-            {errors.gender && <span>{errors.gender.message}</span>}
+            {<span>{errors['gender']}</span>}
           </div>
         </div>
 
@@ -146,15 +160,20 @@ export const UnControlledForm = () => {
             id="picture"
             ref={pictureRef}
             accept="image/png, image/jpeg"
+            onChange={() => validateForm()}
           />
           <div className={`picture-errorWrapper`}>
-            {errors.picture && <span>{errors.picture.message}</span>}
+            {<span>{errors['picture']}</span>}
           </div>
         </div>
 
         <div>
           <label htmlFor="country">Country:</label>
-          <select id="country" ref={countryRef}>
+          <select
+            onChange={() => validateForm()}
+            id="country"
+            ref={countryRef}
+          >
             <option value="">Select Country</option>
             {countries.map((country) => (
               <option key={country} value={country}>
@@ -163,20 +182,28 @@ export const UnControlledForm = () => {
             ))}
           </select>
           <div className={`country-errorWrapper`}>
-            {/* {errors.country && <span>{errors.country.message}</span>} */}
+            {<span>{errors['country']}</span>}
           </div>
         </div>
 
         <div>
           <label htmlFor="terms">
-            <input ref={termsRef} type="checkbox" id="terms" /> Accept T&C
+            <input
+              onChange={() => validateForm()}
+              ref={termsRef}
+              type="checkbox"
+              id="terms"
+            />
+            Accept T&C
           </label>
           <div className={`terms-errorWrapper`}>
-            {/* {errors.terms && <span>{errors.terms.message}</span>} */}
+            {<span>{errors['terms']}</span>}
           </div>
         </div>
 
-        <button type="submit">Submit</button>
+        <button disabled={isSubmitDisabled} type="submit">
+          Submit
+        </button>
       </form>
     </div>
   );

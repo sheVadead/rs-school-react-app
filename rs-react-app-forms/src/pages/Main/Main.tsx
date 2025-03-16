@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import { FormState } from '../../app/slices/controlledFormSlice';
 import { FromType } from '../../constants';
 import { FormDataDisplay } from './components/FormData';
+import styles from './MainPage.module.css';
 
 export const MainPage: React.FC = () => {
   const location = useLocation();
@@ -12,6 +13,9 @@ export const MainPage: React.FC = () => {
     (state: { controlledForm: FormState }) => state.controlledForm
   );
 
+  const unControlledForm = useSelector(
+    (state: { unControlledForm: FormState }) => state.unControlledForm
+  );
   const [highlightControlled, setHighlightControlled] = useState(false);
   const [highlightUncontrolled, setHighlightUnControlled] = useState(false);
 
@@ -30,19 +34,21 @@ export const MainPage: React.FC = () => {
   }, [location.state, controlledForm, location.pathname, navigate]);
 
   return (
-    <div>
+    <div className={styles.formDataWrapper}>
       <h1>Main Page</h1>
-      <FormDataDisplay
-        type={FromType.CONTROLLED_FORM}
-        formData={controlledForm}
-        highlighted={highlightControlled}
-      />
+      <div className={styles.formDataContainer}>
+        <FormDataDisplay
+          type={FromType.CONTROLLED_FORM}
+          formData={controlledForm}
+          highlighted={highlightControlled}
+        />
 
-      <FormDataDisplay
-        type={FromType.UNCONTROLLED_FORM}
-        formData={controlledForm}
-        highlighted={highlightUncontrolled}
-      />
+        <FormDataDisplay
+          type={FromType.UNCONTROLLED_FORM}
+          formData={unControlledForm}
+          highlighted={highlightUncontrolled}
+        />
+      </div>
     </div>
   );
 };

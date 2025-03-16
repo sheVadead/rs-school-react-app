@@ -34,7 +34,6 @@ const controlledFormSlice = createSlice({
       state,
       action: PayloadAction<FormState>
     ) => {
-      console.log('Setting form data', action.payload);
      return { ...state, ...action.payload };
     },
   },

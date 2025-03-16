@@ -11,7 +11,6 @@ export const getYupFormSchema = (countries: string[]) => {
         'capitalized',
         'First letter must be uppercase',
         (value) => {
-          console.log(value)
           return !!value && value[0] === value[0].toUpperCase()
         }
       ),
@@ -20,7 +19,7 @@ export const getYupFormSchema = (countries: string[]) => {
       .number()
       .typeError('Age must be a number')
       .required('Age is required')
-      .min(0, 'Age cannot be negative'),
+      .min(16, 'Should me more than 16'),
 
     email: yup
       .string()

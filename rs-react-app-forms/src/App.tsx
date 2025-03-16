@@ -1,9 +1,10 @@
-import { Link, Route, Routes } from 'react-router';
+import { Link, Route, Routes, useLocation } from 'react-router-dom';
 import { ControlledForm } from './pages/ControlledForm/ControlledForm';
 import { RoutesEnum } from './constants';
 import './App.css';
 import { MainPage } from './pages/Main/Main';
 import { UnControlledForm } from './pages/UncontrolledForm/UncontrolledForm';
+
 const App = () => {
   return (
     <>
@@ -18,18 +19,36 @@ const App = () => {
 };
 
 const Navigation = () => {
-  const { pathname } = window.location;
-  const base = [
-    RoutesEnum.ControlledForm,
-    RoutesEnum.UncontrolledForm,
-  ].includes(pathname as RoutesEnum);
-  console.log(base);
-  return (
-    <nav>
-      <Link to="/controlledForm">Controlled Form</Link>
-      <Link to="/uncontrolledForm">Uncontrolled Form</Link>
-    </nav>
-  );
+  const location = useLocation();
+  const { pathname } = location;
+
+  const renderLinks = () => {
+    switch (pathname) {
+      case RoutesEnum.ControlledForm:
+        return (
+          <>
+            <Link to="/">Main</Link>
+            <Link to="/uncontrolledForm">Uncontrolled Form</Link>
+          </>
+        );
+      case RoutesEnum.UncontrolledForm:
+        return (
+          <>
+            <Link to="/">Main</Link>
+            <Link to="/controlledForm">Controlled Form</Link>
+          </>
+        );
+      default:
+        return (
+          <>
+            <Link to="/controlledForm">Controlled Form</Link>
+            <Link to="/uncontrolledForm">Uncontrolled Form</Link>
+          </>
+        );
+    }
+  };
+
+  return <nav>{renderLinks()}</nav>;
 };
 
 export default App;
