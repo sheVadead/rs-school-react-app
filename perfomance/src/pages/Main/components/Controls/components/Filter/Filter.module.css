@@ -1,9 +1,9 @@
 .filterWrapper {
-    display: flex;
-    justify-content: space-between;
-    width: 25%;
-    margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  width: 25%;
+  margin-bottom: 10px;
 }
 .filterSelect {
-    width: 55%;
+  width: 55%;
 }
