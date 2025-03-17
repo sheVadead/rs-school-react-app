@@ -1,3 +1,5 @@
+import styles from './Search.module.css';
+
 type SearchProps = {
   params: {
     setSearchTerm: React.Dispatch<React.SetStateAction<string>>;
@@ -12,8 +14,10 @@ export const Search: React.FC<SearchProps> = ({
     setSearchTerm(searchTerm);
   };
   return (
-    <div>
+    <div className={styles.searchWrapper}>
+      <label htmlFor="search">Search By Name:</label>
       <input
+        id="search"
         onChange={(e) => handleOnchange(e)}
         type="text"
         placeholder="Search"
