@@ -1,12 +1,11 @@
 type SearchProps = {
   params: {
     setSearchTerm: React.Dispatch<React.SetStateAction<string>>;
-    searchTerm: string;
   };
 };
 
 export const Search: React.FC<SearchProps> = ({
-  params: { setSearchTerm, searchTerm },
+  params: { setSearchTerm },
 }: SearchProps) => {
   const handleOnchange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const searchTerm = event.target.value.toLowerCase();

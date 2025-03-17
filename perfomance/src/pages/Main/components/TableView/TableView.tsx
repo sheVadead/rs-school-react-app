@@ -6,13 +6,13 @@ import { Search } from '../Controls/components/Search/Search';
 import { ViewItem } from '../ViewItem/ViewItem';
 import styles from './TableView.module.css';
 export const TableView = () => {
-  const { data, isLoading, error } = useFetch<Country[]>(fetchCountries);
+  const { data, isLoading } = useFetch<Country[]>(fetchCountries);
 
   const [searchTerm, setSearchTerm] = useState<string>('');
 
   return (
     <div className={styles.tableViewWrapper}>
-      <Search params={{ searchTerm, setSearchTerm }} />
+      <Search params={{ setSearchTerm }} />
       <div className={styles.viewHeader}>
         <h3>Name</h3>
         <h3>Population</h3>
