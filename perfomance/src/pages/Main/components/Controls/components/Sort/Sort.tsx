@@ -1,8 +1,9 @@
+import { SortOrder } from '../../../TableView/hooks/useLogic';
 import styles from './Sort.module.css';
 
 type SortProps = {
   params: {
-    setSortOrder: React.Dispatch<React.SetStateAction<string>>;
+    setSortOrder: React.Dispatch<React.SetStateAction<SortOrder>>;
     setSortBy: React.Dispatch<React.SetStateAction<string>>;
     sortBy: string;
   };
@@ -16,7 +17,7 @@ export const Sort: React.FC<SortProps> = ({ params }: SortProps) => {
         <label htmlFor="sort-order">Sort Order:</label>
         <select
           disabled={!params.sortBy}
-          onChange={(e) => setSortOrder(e.target.value)}
+          onChange={(e) => setSortOrder(e.target.value as SortOrder)}
           className={styles.orderSelect}
           name="sort-order"
           id="sort-order"

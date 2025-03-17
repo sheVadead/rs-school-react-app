@@ -1,0 +1,4 @@
+.controlsWrapper {
+  display: flex;
+  flex-direction: column;
+}
