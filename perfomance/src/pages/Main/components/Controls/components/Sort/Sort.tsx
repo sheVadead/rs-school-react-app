@@ -4,8 +4,8 @@ import styles from './Sort.module.css';
 type SortProps = {
   params: {
     setSortOrder: React.Dispatch<React.SetStateAction<SortOrder>>;
-    setSortBy: React.Dispatch<React.SetStateAction<string>>;
-    sortBy: string;
+    setSortBy: React.Dispatch<React.SetStateAction<SortBy>>;
+    sortBy: SortBy;
   };
 };
 
@@ -41,7 +41,7 @@ export const Sort: React.FC<SortProps> = ({ params }: SortProps) => {
               return;
             }
 
-            setSortBy(e.target.value);
+            setSortBy(e.target.value as SortBy);
           }}
           className={styles.sortBySelect}
           name="sort"
