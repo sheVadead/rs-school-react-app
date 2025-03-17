@@ -1,54 +1,48 @@
-# React + TypeScript + Vite
+# App Performance Analysis
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Overview
+Performance analysis of the application based on profiling data. The key metrics include commit duration, render duration, user interactions, and a ranked list of component render times.
 
-Currently, two official plugins are available:
+## Performance Metrics
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### 1. Commit Duration
+The commit duration, which represents the time taken for React to render committed updates, varies across different commits:
+- **Fastest Commit:** 18.1ms
+- **Slowest Commit:** 98.7ms
+- **Average Commit Duration:** ~33.5ms
 
-## Expanding the ESLint configuration
+### 2. Render Duration
+Individual component render times show a wide range:
+- **Longest Component Render:** 18.1ms (Root)
+- **TableView Component:** 98.7ms (highest single render)
+- **Most Components Rendered Under:** 1ms each
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### 3. User Interactions
+- **Main updates triggered by:** `TableView`
+- **Priority Level:** Normal & Immediate
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-});
-```
+### 4. Flame Graph
+*Example:*
+![Flame Graph Placeholder](./docs/images/chart-before-optimization.png)
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### 5. Top Time-Consuming Components
+- **TableView:** Consistently takes the longest to render, often above 10ms
+- **MainPage:** Second most time-consuming component
+- **Controls:** Shows significant render times in some commits
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x';
-import reactDom from 'eslint-plugin-react-dom';
+### 6. Ranked Component Performance
+| Component | Render Duration (ms) |
+|-----------|----------------------|
+| `createRoot()` | 18.1 |
+| `TableView` | 98.7 |
+| `Various Sub-components` | < 1ms |
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-});
-```
+## Recommendations
+- Optimize `TableView` as it significantly impacts render performance.
+- Investigate `createRoot()` initialization time for potential improvements.
+- Consider using `React.memo` or `useCallback` to optimize component re-renders.
+
+## How to Reproduce
+1. Open Chrome DevTools and navigate to the **Profiler** tab.
+2. Record an interaction while using the app.
+3. Analyze the **Flame Graph** and **Ranked Chart** to identify performance bottlenecks.
