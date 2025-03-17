@@ -7,10 +7,16 @@ export enum SortOrder {
   DESC = 'desc',
 }
 
+export enum SortBy {
+  DEFAULT = '',
+  NAME = 'name',
+  POPULATION = 'population',
+}
+
 export const useLogic = (data: Country[]) => {
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [filter, setFilterOption] = useState<string>('');
-  const [sortBy, setSortBy] = useState<string>('');
+  const [sortBy, setSortBy] = useState<SortBy>(SortBy.DEFAULT);
   const [sortOrder, setSortOrder] = useState<SortOrder>(SortOrder.DEFAULT);
 
   const handleDataSortingAndFiltering = (data: Country[]) => {
@@ -18,6 +24,7 @@ export const useLogic = (data: Country[]) => {
       .filter((item) => item.name.common.toLowerCase().includes(searchTerm))
       .filter((item) => item.region.includes(filter))
       .sort((a, b) => {
+        if (!sortOrder) return 0;
         if (sortBy === 'population') {
           return sortOrder === 'asc'
             ? a.population - b.population

@@ -1,4 +1,4 @@
-import { SortOrder } from '../../../TableView/hooks/useLogic';
+import { SortBy, SortOrder } from '../../../TableView/hooks/useLogic';
 import styles from './Sort.module.css';
 
 type SortProps = {
@@ -22,20 +22,34 @@ export const Sort: React.FC<SortProps> = ({ params }: SortProps) => {
           name="sort-order"
           id="sort-order"
         >
+          <option defaultChecked value="">
+            Default
+          </option>
           <option value="asc">Ascending</option>
           <option value="desc">Descending</option>
         </select>
       </div>
 
       <div className={styles.sortByWrapper}>
-        <label htmlFor="sort">Sort Order:</label>
+        <label htmlFor="sort">Sort By:</label>
         <select
-          onChange={(e) => setSortBy(e.target.value)}
+          onChange={(e) => {
+            const target = e.target.value as SortBy;
+
+            if (target === SortBy.DEFAULT) {
+              setSortOrder(SortOrder.DEFAULT);
+              return;
+            }
+
+            setSortBy(e.target.value);
+          }}
           className={styles.sortBySelect}
           name="sort"
           id="sort"
         >
-          <option defaultChecked value=""></option>
+          <option defaultChecked value="">
+            Default
+          </option>
           <option value="name">By Name</option>
           <option value="population">By Population</option>
         </select>
