@@ -3,6 +3,7 @@ import { Search } from './components/Search/Search';
 import { Filter } from './components/Filter/Filter';
 import { Sort } from './components/Sort/Sort';
 import { SortBy, SortOrder } from '../TableView/hooks/useLogic';
+import React from 'react';
 
 type ControlsProps = {
   params: {
@@ -15,7 +16,7 @@ type ControlsProps = {
   };
 };
 
-export const Controls = ({ params }: ControlsProps) => {
+const Controls = ({ params }: ControlsProps) => {
   const {
     setSearchTerm,
     setFilterOption,
@@ -39,3 +40,6 @@ export const Controls = ({ params }: ControlsProps) => {
     </div>
   );
 };
+
+const memoizedViewItem = React.memo(Controls);
+export { memoizedViewItem as Controls };
