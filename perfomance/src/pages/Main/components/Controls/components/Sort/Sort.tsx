@@ -1,3 +1,4 @@
+import React from 'react';
 import { SortBy, SortOrder } from '../../../TableView/hooks/useLogic';
 import styles from './Sort.module.css';
 
@@ -9,7 +10,7 @@ type SortProps = {
   };
 };
 
-export const Sort: React.FC<SortProps> = ({ params }: SortProps) => {
+const Sort: React.FC<SortProps> = ({ params }: SortProps) => {
   const { setSortBy, setSortOrder } = params;
   return (
     <div className={styles.sortWrapper}>
@@ -38,6 +39,7 @@ export const Sort: React.FC<SortProps> = ({ params }: SortProps) => {
 
             if (target === SortBy.DEFAULT) {
               setSortOrder(SortOrder.DEFAULT);
+              setSortBy(SortBy.DEFAULT);
               return;
             }
 
@@ -57,3 +59,6 @@ export const Sort: React.FC<SortProps> = ({ params }: SortProps) => {
     </div>
   );
 };
+
+const memoizedViewItem = React.memo(Sort);
+export { memoizedViewItem as Sort };

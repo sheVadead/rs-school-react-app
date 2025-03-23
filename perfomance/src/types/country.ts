@@ -82,4 +82,5 @@ export type Country = {
     format: string;
     regex?: string;
   };
+  visited?: boolean;
 };

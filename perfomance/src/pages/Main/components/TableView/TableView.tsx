@@ -5,13 +5,19 @@ import { ViewItem } from '../ViewItem/ViewItem';
 import styles from './TableView.module.css';
 import { useLogic } from './hooks/useLogic';
 import { Controls } from '../Controls/Controls';
-export const TableView = () => {
-  const { data, isLoading } = useFetch<Country[]>(fetchCountries);
+import { useLocalStorage } from './hooks/useLocalStorage';
+import React, { useCallback, useMemo } from 'react';
 
-  const regions = data.reduce((acc, item) => {
-    acc.add(item.region);
-    return acc;
-  }, new Set());
+const TableView = () => {
+  const { data, isLoading } = useFetch<Country[]>(fetchCountries);
+  const [visitedCountries, setCountry] = useLocalStorage();
+
+  const regions = useMemo(() => {
+    return data.reduce((acc, item) => {
+      acc.add(item.region);
+      return acc;
+    }, new Set());
+  }, [data]);
 
   const {
     sortedAndFilteredData,
@@ -20,10 +26,19 @@ export const TableView = () => {
     sortBy,
     setSortBy,
     setSortOrder,
-  } = useLogic(data);
+    handleOnClick,
+  } = useLogic(data, visitedCountries);
+
+  const memoizedHandleOnClick = useCallback(
+    (e: React.SyntheticEvent) => handleOnClick(e, visitedCountries, setCountry),
+    [handleOnClick, visitedCountries, setCountry],
+  );
 
   return (
-    <div className={styles.tableViewWrapper}>
+    <div
+      className={styles.tableViewWrapper}
+      onClick={(e: React.SyntheticEvent) => memoizedHandleOnClick(e)}
+    >
       <div>
         {!isLoading && (
           <Controls
@@ -47,7 +62,7 @@ export const TableView = () => {
       {!isLoading &&
         sortedAndFilteredData.map(
           (
-            { flags: { png }, name: { common }, population, region },
+            { flags: { png }, name: { common }, population, region, visited },
             index: number,
           ) => (
             <ViewItem
@@ -57,6 +72,7 @@ export const TableView = () => {
                 name: common,
                 population,
                 region,
+                visited,
               }}
             />
           ),
@@ -64,3 +80,6 @@ export const TableView = () => {
     </div>
   );
 };
+
+const memoizedViewItem = React.memo(TableView);
+export { memoizedViewItem as TableView };

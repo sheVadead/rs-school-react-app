@@ -1,3 +1,4 @@
+import React from 'react';
 import styles from './Search.module.css';
 
 type SearchProps = {
@@ -6,7 +7,7 @@ type SearchProps = {
   };
 };
 
-export const Search: React.FC<SearchProps> = ({
+const Search: React.FC<SearchProps> = ({
   params: { setSearchTerm },
 }: SearchProps) => {
   const handleOnchange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -25,3 +26,6 @@ export const Search: React.FC<SearchProps> = ({
     </div>
   );
 };
+
+const memoizedViewItem = React.memo(Search);
+export { memoizedViewItem as Search };

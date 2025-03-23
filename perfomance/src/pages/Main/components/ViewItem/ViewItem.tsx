@@ -1,3 +1,4 @@
+import React from 'react';
 import styles from './ViewItem.module.css';
 
 type ViewItemProps = {
@@ -6,15 +7,16 @@ type ViewItemProps = {
     region: string;
     flagImageUrl: string;
     name: string;
+    visited?: boolean;
   };
 };
 
-export const ViewItem: React.FC<ViewItemProps> = ({
-  country,
-}: ViewItemProps) => {
-  const { population, region, flagImageUrl, name } = country;
+const ViewItem: React.FC<ViewItemProps> = ({ country }: ViewItemProps) => {
+  const { population, region, flagImageUrl, name, visited } = country;
+
+  const classNames = `${styles.viewItemWrapper} ${visited ? styles.visited : ''}`;
   return (
-    <div className={styles.viewItemWrapper}>
+    <div className={classNames} data-view-item={name}>
       <div className={styles.viewItem}>
         <div className={styles.nameWrapper}>
           <span>{name}</span>
@@ -34,3 +36,6 @@ export const ViewItem: React.FC<ViewItemProps> = ({
     </div>
   );
 };
+
+const memoizedViewItem = React.memo(ViewItem);
+export { memoizedViewItem as ViewItem };

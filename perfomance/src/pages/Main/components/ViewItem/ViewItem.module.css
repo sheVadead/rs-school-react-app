@@ -25,3 +25,13 @@
   text-align: right;
   width: 15%;
 }
+
+.visited {
+  background-color: lightgreen;
+}
+
+.viewItem:hover {
+  cursor: pointer;
+  scale: 1.01;
+  background-color: lightgreen;
+}

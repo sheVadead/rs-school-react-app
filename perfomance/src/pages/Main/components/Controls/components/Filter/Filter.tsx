@@ -1,3 +1,4 @@
+import React from 'react';
 import styles from './Filter.module.css';
 
 type FilterProps = {
@@ -7,7 +8,7 @@ type FilterProps = {
   };
 };
 
-export const Filter: React.FC<FilterProps> = ({ params }: FilterProps) => {
+const Filter: React.FC<FilterProps> = ({ params }: FilterProps) => {
   return (
     <div className={styles.filterWrapper}>
       <label htmlFor="filter">Filter by Region:</label>
@@ -28,3 +29,6 @@ export const Filter: React.FC<FilterProps> = ({ params }: FilterProps) => {
     </div>
   );
 };
+
+const memoizedViewItem = React.memo(Filter);
+export { memoizedViewItem as Filter };
