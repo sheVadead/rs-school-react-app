@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import styles from './Search.module.css';
 
 type SearchProps = {
@@ -10,10 +10,13 @@ type SearchProps = {
 const Search: React.FC<SearchProps> = ({
   params: { setSearchTerm },
 }: SearchProps) => {
-  const handleOnchange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const searchTerm = event.target.value.toLowerCase();
-    setSearchTerm(searchTerm);
-  };
+  const handleOnchange = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      const searchTerm = event.target.value.toLowerCase();
+      setSearchTerm(searchTerm);
+    },
+    [setSearchTerm],
+  );
   return (
     <div className={styles.searchWrapper}>
       <label htmlFor="search">Search By Name:</label>
