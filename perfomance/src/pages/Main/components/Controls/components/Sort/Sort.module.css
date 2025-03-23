@@ -1,0 +1,24 @@
+.sortWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+}
+
+.sortOrderWrapper {
+  display: flex;
+  justify-content: space-between;
+  width: 25%;
+  margin-bottom: 10px;
+}
+
+.sortByWrapper {
+  display: flex;
+  justify-content: space-between;
+  width: 25%;
+}
+
+.orderSelect,
+.sortBySelect {
+  width: 55%;
+}
